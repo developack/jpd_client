@@ -12,9 +12,12 @@ export type ContentsTableProps = {
 
 export type AiContent = {
     id: string,
+    language: string,
     title: string,
-    summary: string,
-    details: string,
+    summary?: string,
+    details?: string,
+    has_media?: boolean,
+    status: boolean,
     created: string
 }
 
@@ -39,7 +42,7 @@ export type ReceiptContentDetail = {
     receipt_status_config__reference_config__name: string,
     created: string,
     updated: string,
-    ai_content: AiContent,
+    ai_contents: AiContent[],
     related_keywords: string[] | [],
     project: Project,
     reference_config: ReferenceConfig,
@@ -57,4 +60,8 @@ export type ContentDetailSidebarProps = {
 export type ContentDetailMainProps = {
     content: ReceiptContentDetail | null
     loading: boolean
+}
+
+export type AIContentTableProps = {
+    ai_contents: AiContent[]
 }

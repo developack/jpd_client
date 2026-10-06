@@ -1,52 +1,54 @@
-import { Link, useParams } from "react-router"
-import { Badge } from "@/components/ui/badge"
+import { Link } from "react-router"
 import { Button } from "@/components/ui/button"
-import { Pencil, EllipsisVertical, FileText } from "lucide-react"
+import { Badge } from "@/components/ui/badge"
+import { Pencil, EllipsisVertical, FileText, Eye } from "lucide-react"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import { Table, TableRow, TableHead, TableCell, TableHeader, TableBody } from "@/components/ui/table"
-import type { ContentsTableProps } from "@/types/contents.types"
+import type { AIContentTableProps } from "@/types/contents.types"
 import { formatDate } from "@/utils/date"
 
 
-export const ContentsTable = ({ contents }: ContentsTableProps) => {
-    const { projectId } = useParams()
-    
+
+export const AIContentTable = ({ ai_contents }: AIContentTableProps) => {
     return (
         <div className="bg-surface overflow-hidden rounded-lg border">
             <Table className="overflow-hidden">
                 <TableHeader className="bg-table-head">
                     <TableRow>
-                        <TableHead className="text-right font-bold w-[39.2%]">عنوان</TableHead>
-                        <TableHead className="text-right font-bold w-[20%]">منبع محتوا</TableHead>
-                        <TableHead className="text-right font-bold w-[15%]">رسانه</TableHead>
+                        <TableHead className="text-right font-bold w-[40%]">عنوان</TableHead>
+                        <TableHead className="text-right font-bold w-[15%]">زبان</TableHead>
+                        <TableHead className="text-right font-bold w-[15%]">وضعیت</TableHead>
                         <TableHead className="text-right font-bold w-[15%]">تاریخ ایجاد</TableHead>
-                        <TableHead className="text-right font-bold w-[10.8%]">عملیات</TableHead>
+                        <TableHead className="text-right font-bold w-[15%]">عملیات</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {contents.map((content) => (
-                        <TableRow key={content.id}>
+                    {ai_contents.map((ai_content) => (
+                        <TableRow key={ai_content.id}>
                             <TableCell>
                                 <Tooltip>
                                     <TooltipTrigger>
-                                        <Link className="flex items-center gap-2" to={`/projects/${projectId}/contents/${content.id}/`}>
+                                        <Link className="flex items-center gap-2" to="">
                                             <FileText className="size-4 shrink-0" />
-                                            <span className="block truncate max-w-[400px] hover:underline">
-                                                {content.title}
+                                            <span className="block truncate max-w-[300px] hover:underline">
+                                                {ai_content.title}
                                             </span>
                                         </Link>
                                     </TooltipTrigger>
-                                    <TooltipContent>{content.title}</TooltipContent>
+                                    <TooltipContent>{ai_content.title}</TooltipContent>
                                 </Tooltip>
                             </TableCell>
-                            <TableCell>{content.receipt_status_config__reference_config__name}</TableCell>
+                            <TableCell>{ai_content.language}</TableCell>
                             <TableCell>
-                                <Badge className="select-none" variant={content.has_media ? 'active' : 'destructive'}>
-                                    {content.has_media ? 'دارد' : 'ندارد'}
+                                <Badge className="select-none" variant={ai_content.status ? 'active' : 'destructive'}>
+                                    {ai_content.status ? 'فعال' : 'غیرفعال'}
                                 </Badge>
                             </TableCell>
-                            <TableCell>{formatDate(content.created)}</TableCell>
+                            <TableCell>{formatDate(ai_content.created)}</TableCell>
                             <TableCell className="flex items-center gap-2">
+                                <Button size="icon-sm" variant="outline">
+                                    <Eye />
+                                </Button>
                                 <Button size="icon-sm" variant="outline" disabled>
                                     <Link to="/project">
                                         <Pencil />

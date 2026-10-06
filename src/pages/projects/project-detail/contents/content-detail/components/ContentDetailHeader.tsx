@@ -10,9 +10,9 @@ export const ContentDetailHeader = ({ content }: ContentDetailHeaderProps) => {
         <header>
             <div className="flex items-center justify-between">
                 <Button variant="ghost">
-                    <Link to={`/projects/${content?.project.id}`} className="flex items-center gap-1.5">
+                    <Link to={`/projects/${content?.project.id}/contents`} className="flex items-center gap-1.5">
                         <MoveRight />
-                        بازگشت به پروژه
+                        بازگشت به محتواها
                     </Link>
                 </Button>
                 <Button disabled>

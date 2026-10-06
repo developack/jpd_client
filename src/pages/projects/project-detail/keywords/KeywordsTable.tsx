@@ -6,6 +6,7 @@ import { Table, TableRow, TableHead, TableCell, TableHeader, TableBody } from "@
 import { KeywordDetailDialog } from "@/pages/projects/project-detail/keywords/KeywordDetailDialog"
 import type { Keyword, KeywordsTableProps } from "@/types/keyword.types"
 import { formatDate } from "@/utils/date"
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 
 
 export const KeywordsTable = ({ keywords }: KeywordsTableProps) => {
@@ -22,22 +23,27 @@ export const KeywordsTable = ({ keywords }: KeywordsTableProps) => {
             <Table className="overflow-hidden">
                 <TableHeader className="bg-table-head">
                     <TableRow>
-                        <TableHead className="text-right font-bold w-[30%]">عنوان</TableHead>
+                        <TableHead className="text-right font-bold w-[29.2%]">عنوان</TableHead>
                         <TableHead className="text-right font-bold w-[15%]">پروژه</TableHead>
                         <TableHead className="text-right font-bold w-[15%]">نوع کلیدواژه</TableHead>
                         <TableHead className="text-right font-bold w-[15%]">زبان</TableHead>
                         <TableHead className="text-right font-bold w-[15%]">تاریخ ایجاد</TableHead>
-                        <TableHead className="text-right font-bold w-[10%]">عملیات</TableHead>
+                        <TableHead className="text-right font-bold w-[10.8%]">عملیات</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
                     {keywords.map((keyword) => (
                         <TableRow key={keyword.id}>
                             <TableCell>
-                                <h2 className="flex items-center gap-2 font-medium">
-                                    <Tag className="size-4" />
-                                    {keyword.name}
-                                </h2>
+                                <Tooltip>
+                                    <TooltipTrigger className="flex items-center gap-2">
+                                        <Tag className="size-4 shrink-0" />
+                                        <span className="block truncate max-w-[350px]">
+                                            {keyword.name}
+                                        </span>
+                                    </TooltipTrigger>
+                                    <TooltipContent>{keyword.name}</TooltipContent>
+                                </Tooltip>
                             </TableCell>
                             <TableCell>{keyword.project}</TableCell>
                             <TableCell>{keyword.keyword_type}</TableCell>

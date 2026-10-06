@@ -9,11 +9,11 @@ export const ContentsTableSkeleton = () => {
             <Table>
                 <TableHeader className="bg-table-head">
                     <TableRow>
-                        <TableHead className="text-right font-bold w-[40%]">عنوان</TableHead>
+                        <TableHead className="text-right font-bold w-[39.2%]">عنوان</TableHead>
                         <TableHead className="text-right font-bold w-[20%]">منبع محتوا</TableHead>
                         <TableHead className="text-right font-bold w-[15%]">رسانه</TableHead>
                         <TableHead className="text-right font-bold w-[15%]">تاریخ ایجاد</TableHead>
-                        <TableHead className="text-right font-bold w-[10%]">عملیات</TableHead>
+                        <TableHead className="text-right font-bold w-[10.8%]">عملیات</TableHead>
                     </TableRow>
                 </TableHeader>
 

@@ -5,6 +5,7 @@ import { Pencil, EllipsisVertical, Database } from "lucide-react"
 import { Table, TableRow, TableHead, TableCell, TableHeader, TableBody } from "@/components/ui/table"
 import type { ReceiptsTableProps } from "@/types/receipt.types"
 import { formatDate } from "@/utils/date"
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 
 
 export const ReceiptsTable = ({ receipts }: ReceiptsTableProps) => {
@@ -13,21 +14,26 @@ export const ReceiptsTable = ({ receipts }: ReceiptsTableProps) => {
             <Table className="overflow-hidden">
                 <TableHeader className="bg-table-head">
                     <TableRow>
-                        <TableHead className="text-right font-bold w-[30%]">عنوان</TableHead>
+                        <TableHead className="text-right font-bold w-[29.2%]">عنوان</TableHead>
                         <TableHead className="text-right font-bold w-[20%]">آدرس</TableHead>
                         <TableHead className="text-right font-bold w-[20%]">وضعیت</TableHead>
                         <TableHead className="text-right font-bold w-[20%]">تاریخ ایجاد</TableHead>
-                        <TableHead className="text-right font-bold w-[10%]">عملیات</TableHead>
+                        <TableHead className="text-right font-bold w-[10.8%]">عملیات</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
                     {receipts.map((receipt) => (
                         <TableRow key={receipt.id}>
                             <TableCell>
-                                <h2 className="flex items-center gap-2 font-medium">
-                                    <Database className="size-4" />
-                                    {receipt.name}
-                                </h2>
+                                <Tooltip>
+                                    <TooltipTrigger className="flex items-center gap-2">
+                                        <Database className="size-4 shrink-0" />
+                                        <span className="block truncate max-w-[350px]">
+                                            {receipt.name}
+                                        </span>
+                                    </TooltipTrigger>
+                                    <TooltipContent>{receipt.name}</TooltipContent>
+                                </Tooltip>
                             </TableCell>
                             <TableCell>{receipt.url}</TableCell>
                             <TableCell>

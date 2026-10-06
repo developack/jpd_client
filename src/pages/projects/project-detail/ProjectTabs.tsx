@@ -1,3 +1,5 @@
+import { useParams } from "react-router"
+import { useNavigate } from "react-router"
 import { Building, Database, FileText, Tag, DatabaseArrowUp } from "lucide-react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { OverviewTabContent } from "@/pages/projects/project-detail/overview/OverviewTabContent"
@@ -8,10 +10,16 @@ import { ContentsTabContent } from "@/pages/projects/project-detail/contents/Con
 
 
 export const ProjectTabs = () => {
+    const navigate = useNavigate()
+    const { projectId, tab } = useParams()
+
+    const handleTabChange = (value: string) => {
+        navigate(`/projects/${projectId}/${value}/`)
+    }
 
     return (
         <div className="mt-5">
-            <Tabs defaultValue="keywords">
+            <Tabs defaultValue={tab || "overview"} onValueChange={handleTabChange}>
                 <div className="border-b overflow-x-auto overflow-y-hidden">
                     <TabsList variant="line" className="h-12!">
                         <TabsTrigger value="overview" className="px-5 py-3 text-sm">

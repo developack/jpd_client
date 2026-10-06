@@ -16,12 +16,12 @@ export const ExpandableText = ({ className, text }: ExpandableTextProps) => {
     useEffect(() => {
         const element = contentElement.current
         if (!element) return
-        setIsOverflowing(element.scrollHeight > 300)
+        setIsOverflowing(element.scrollHeight > 200)
     }, [text])
 
     return (
         <div className={`relative overflow-hidden ${className}`}>
-            <p className={`${!expanded && "max-h-[300px]"}`} ref={contentElement}>{text}</p>
+            <p className={`${!expanded && "max-h-[200px]"}`} ref={contentElement}>{text}</p>
 
             {isOverflowing && (
                 <>

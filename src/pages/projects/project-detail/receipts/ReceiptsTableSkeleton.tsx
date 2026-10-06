@@ -9,11 +9,11 @@ export const ReceiptsTableSkeleton = () => {
             <Table>
                 <TableHeader className="bg-table-head">
                     <TableRow>
-                        <TableHead className="text-right font-bold w-[30%]">عنوان</TableHead>
+                        <TableHead className="text-right font-bold w-[29.2%]">عنوان</TableHead>
                         <TableHead className="text-right font-bold w-[20%]">آدرس</TableHead>
                         <TableHead className="text-right font-bold w-[20%]">وضعیت</TableHead>
                         <TableHead className="text-right font-bold w-[20%]">تاریخ ایجاد</TableHead>
-                        <TableHead className="text-right font-bold w-[10%]">عملیات</TableHead>
+                        <TableHead className="text-right font-bold w-[10.8%]">عملیات</TableHead>
                     </TableRow>
                 </TableHeader>
 
@@ -21,7 +21,7 @@ export const ReceiptsTableSkeleton = () => {
                     {Array.from({ length: 5 }).map((_, index) => (
                         <TableRow key={index}>
                             <TableCell>
-                                <Skeleton className="h-5 w-28" />
+                                <Skeleton className="h-5 w-[250px]" />
                             </TableCell>
                             <TableCell><Skeleton className="h-5 w-32 rounded-full" /></TableCell>
                             <TableCell><Skeleton className="h-5 w-15" /></TableCell>

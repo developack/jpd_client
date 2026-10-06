@@ -78,7 +78,7 @@ export const ContentDetailSidebar = ({ content, loading }: ContentDetailSidebarP
                     کلیدواژه‌های مرتبط
                 </div>
                 <div className="flex items-start justify-between p-4">
-                    <div className="flex flex-wrap gap-3">
+                    <div className="flex flex-wrap gap-3 max-h-[150px] overflow-y-auto">
                         {loading ? (
                             Array.from({ length: 5 }).map((_, index) => (
                                 <Skeleton key={index} className="h-5 w-[65px]" />

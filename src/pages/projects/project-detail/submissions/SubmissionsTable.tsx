@@ -5,6 +5,7 @@ import { Pencil, EllipsisVertical, DatabaseArrowUp } from "lucide-react"
 import { Table, TableRow, TableHead, TableCell, TableHeader, TableBody } from "@/components/ui/table"
 import type { SubmissionsTableProps } from "@/types/submissions.types"
 import { formatDate } from "@/utils/date"
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 
 
 export const SubmissionsTable = ({ submissions }: SubmissionsTableProps) => {
@@ -13,21 +14,26 @@ export const SubmissionsTable = ({ submissions }: SubmissionsTableProps) => {
             <Table className="overflow-hidden">
                 <TableHeader className="bg-table-head">
                     <TableRow>
-                        <TableHead className="text-right font-bold w-[30%]">عنوان</TableHead>
+                        <TableHead className="text-right font-bold w-[29.2%]">عنوان</TableHead>
                         <TableHead className="text-right font-bold w-[20%]">آدرس</TableHead>
                         <TableHead className="text-right font-bold w-[20%]">وضعیت</TableHead>
                         <TableHead className="text-right font-bold w-[20%]">تاریخ ایجاد</TableHead>
-                        <TableHead className="text-right font-bold w-[10%]">عملیات</TableHead>
+                        <TableHead className="text-right font-bold w-[10.8%]">عملیات</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
                     {submissions.map((submission) => (
                         <TableRow key={submission.id}>
                             <TableCell>
-                                <h2 className="flex items-center gap-2 font-medium">
-                                    <DatabaseArrowUp className="size-4" />
-                                    {submission.name}
-                                </h2>
+                                <Tooltip>
+                                    <TooltipTrigger className="flex items-center gap-2">
+                                        <DatabaseArrowUp className="size-4 shrink-0" />
+                                        <span className="block truncate max-w-[350px]">
+                                            {submission.name}
+                                        </span>
+                                    </TooltipTrigger>
+                                    <TooltipContent>{submission.name}</TooltipContent>
+                                </Tooltip>
                             </TableCell>
                             <TableCell>{submission.url}</TableCell>
                             <TableCell>

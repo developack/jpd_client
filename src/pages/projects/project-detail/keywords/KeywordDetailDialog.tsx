@@ -40,7 +40,7 @@ export const KeywordDetailDialog = ({ open, onOpenChange, keyword }: KeywordDeta
 
                         <div className="px-4 py-3">
                             <dt className="mb-3 text-sm text-muted-foreground">کلمات</dt>
-                            <dd className="flex flex-wrap gap-2">
+                            <dd className="flex flex-wrap gap-2 max-h-[150px] overflow-y-auto">
                                 {keyword?.words?.list?.map((word) => (
                                     <span className="rounded-md bg-muted px-2.5 py-1 text-xs">{word}</span>
                                 ))}

@@ -11,7 +11,7 @@ export const ContentDetailHeaderSkeleton = () => {
                 <Button variant="ghost">
                     <Link to="/projects" className="flex items-center gap-1.5">
                         <MoveRight />
-                        بازگشت به پروژه
+                        بازگشت به محتواها
                     </Link>
                 </Button>
                 <Button>
