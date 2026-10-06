@@ -3,7 +3,6 @@ import { useParams } from "react-router"
 import { toast } from "@/components/ui/toast"
 import { PanelLayout } from "@/components/layout/PanelLayout"
 import { ContentDetailHeader } from "./components/ContentDetailHeader"
-import { ContentDetailHeaderSkeleton } from "./components/ContentDetailHeaderSkeleton"
 import { ContentDetailSidebar } from "./components/ContentDetailSidebar"
 import { ContentDetailMain } from "./components/ContentDetailMain"
 import type { ReceiptContentDetail } from "@/types/contents.types"
@@ -47,7 +46,7 @@ export const ContentDetailPage = () => {
     return (
         <PanelLayout>
             <section>
-                {loading ? <ContentDetailHeaderSkeleton /> : <ContentDetailHeader content={content} />}
+                <ContentDetailHeader content={content} />
                 <div className="grid grid-cols-1 items-start gap-5 mt-5 xl:grid-cols-[3fr_1fr]">
                     <ContentDetailMain content={content} loading={loading} />
                     <ContentDetailSidebar content={content} loading={loading} />
