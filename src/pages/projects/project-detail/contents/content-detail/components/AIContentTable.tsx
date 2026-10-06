@@ -30,7 +30,7 @@ export const AIContentTable = ({ ai_contents }: AIContentTableProps) => {
                                     <TooltipTrigger>
                                         <Link className="flex items-center gap-2" to="">
                                             <FileText className="size-4 shrink-0" />
-                                            <span className="block truncate max-w-[300px] hover:underline">
+                                            <span className="block truncate max-w-[300px]">
                                                 {ai_content.title}
                                             </span>
                                         </Link>
