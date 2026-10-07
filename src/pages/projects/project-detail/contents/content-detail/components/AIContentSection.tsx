@@ -8,14 +8,14 @@ import { AIContentTable } from "./AIContentTable"
 import { AIContentTableSkeleton } from "./AIContentTableSkeleton"
 import { DataTableEmpty } from "@/components/data-table/DataTableEmpty"
 import { DataTableError } from "@/components/data-table/DataTableError"
-import type { AiContent } from "@/types/contents.types"
+import type { AIContent } from "@/types/contents.types"
 import { getApi } from "@/services/api/api"
 import { ApiError } from "@/services/api/ApiError"
 
 
 export const AIContentSection = () => {
     const {contentId} = useParams()
-    const [aiContents, setAiContents] = useState<AiContent[]>([])
+    const [aiContents, setAiContents] = useState<AIContent[]>([])
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<ApiError | null>(null)
 
@@ -23,7 +23,7 @@ export const AIContentSection = () => {
 
         setLoading(true)
         try {   
-            const data = await getApi<AiContent[]>(`/ai-contents/${contentId}/`)
+            const data = await getApi<AIContent[]>(`/ai-contents/${contentId}/`)
             setAiContents(data)
 
         } catch (error) {

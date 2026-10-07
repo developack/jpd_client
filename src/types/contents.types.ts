@@ -10,7 +10,7 @@ export type ContentsTableProps = {
     contents: Content[]
 }
 
-export type AiContent = {
+export type AIContent = {
     id: string,
     language: string,
     title: string,
@@ -42,7 +42,7 @@ export type ReceiptContentDetail = {
     receipt_status_config__reference_config__name: string,
     created: string,
     updated: string,
-    ai_contents: AiContent[],
+    ai_contents: AIContent[],
     related_keywords: string[] | [],
     project: Project,
     reference_config: ReferenceConfig,
@@ -63,5 +63,11 @@ export type ContentDetailProps = {
 }
 
 export type AIContentTableProps = {
-    ai_contents: AiContent[]
+    ai_contents: AIContent[]
+}
+
+export type AIContentDetailDialogProps = {
+    open: boolean,
+    onOpenChange: React.Dispatch<React.SetStateAction<boolean>>,
+    content: AIContent | null
 }

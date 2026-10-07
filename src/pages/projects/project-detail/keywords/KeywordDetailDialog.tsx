@@ -1,5 +1,4 @@
-import { Button } from "@/components/ui/button"
-import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import type { KeywordDetailDialogProps } from "@/types/keyword.types"
 import { formatDate } from "@/utils/date"
 
@@ -48,11 +47,6 @@ export const KeywordDetailDialog = ({ open, onOpenChange, keyword }: KeywordDeta
                         </div>
                     </dl>
                 </div>
-                <DialogFooter>
-                    <DialogClose>
-                        <Button variant="outline">بستن</Button>
-                    </DialogClose>
-                </DialogFooter>
             </DialogContent>
         </Dialog>
     )

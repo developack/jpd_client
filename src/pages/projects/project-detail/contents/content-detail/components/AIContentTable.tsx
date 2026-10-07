@@ -1,15 +1,24 @@
+import { useState } from "react"
 import { Link } from "react-router"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Pencil, EllipsisVertical, FileText, Eye } from "lucide-react"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import { Table, TableRow, TableHead, TableCell, TableHeader, TableBody } from "@/components/ui/table"
-import type { AIContentTableProps } from "@/types/contents.types"
+import { AIContentDetailDialog } from "./AIContentDetailDialog"
+import type { AIContentTableProps, AIContent } from "@/types/contents.types"
 import { formatDate } from "@/utils/date"
 
 
-
 export const AIContentTable = ({ ai_contents }: AIContentTableProps) => {
+    const [dialogOpen, setDialogOpen] = useState(false)
+    const [selectedContent, setSelectedContent] = useState<AIContent | null>(null)
+
+    const handleViewDetails = (aiContent: AIContent): void => {
+        setSelectedContent(aiContent)
+        setDialogOpen(true)
+    }
+
     return (
         <div className="bg-surface overflow-hidden rounded-lg border">
             <Table className="overflow-hidden">
@@ -27,13 +36,11 @@ export const AIContentTable = ({ ai_contents }: AIContentTableProps) => {
                         <TableRow key={ai_content.id}>
                             <TableCell>
                                 <Tooltip>
-                                    <TooltipTrigger>
-                                        <Link className="flex items-center gap-2" to="">
-                                            <FileText className="size-4 shrink-0" />
-                                            <span className="block truncate max-w-[300px]">
-                                                {ai_content.title}
-                                            </span>
-                                        </Link>
+                                    <TooltipTrigger className="flex items-center gap-2">
+                                        <FileText className="size-4 shrink-0" />
+                                        <span className="block truncate max-w-[300px]">
+                                            {ai_content.title}
+                                        </span>
                                     </TooltipTrigger>
                                     <TooltipContent>{ai_content.title}</TooltipContent>
                                 </Tooltip>
@@ -46,7 +53,7 @@ export const AIContentTable = ({ ai_contents }: AIContentTableProps) => {
                             </TableCell>
                             <TableCell>{formatDate(ai_content.created)}</TableCell>
                             <TableCell className="flex items-center gap-2">
-                                <Button size="icon-sm" variant="outline">
+                                <Button onClick={() => handleViewDetails(ai_content)} size="icon-sm" variant="outline">
                                     <Eye />
                                 </Button>
                                 <Button size="icon-sm" variant="outline" disabled>
@@ -69,6 +76,7 @@ export const AIContentTable = ({ ai_contents }: AIContentTableProps) => {
                 </div>
                 <span className="text-sm text-text-secondary">نمایش 1 تا 6 از 6 مورد</span>
             </div>
+            <AIContentDetailDialog open={dialogOpen} onOpenChange={setDialogOpen} content={selectedContent} />
         </div>
     )
 }

@@ -30,7 +30,7 @@ export const ReceiptContentSection = ({ content, loading }: ContentDetailProps) 
             {loading ? (<ContentDetailMainSkeleton />) : (
                 <div className="p-5">
                     <h5 className="font-semibold">{content?.title}</h5>
-                    <div className="flex flex-col gap-5 mt-5">
+                    <div className="flex flex-col gap-5 mt-5 text-justify">
                         <div className="relative">
                             <span className="text-sm absolute bg-surface px-2.5 top-[-8px] right-[10px] z-[1]">خلاصه</span>
                             <ExpandableText className="text-text-secondary text-sm border p-4 rounded-lg leading-7" text={content?.summary} />

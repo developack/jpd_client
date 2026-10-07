@@ -18,6 +18,6 @@ export type TagInputProps = {
 }
 
 export type ExpandableTextProps = {
-    className: string,
+    className?: string,
     text: string | undefined
 }
