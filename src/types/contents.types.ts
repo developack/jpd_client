@@ -39,6 +39,7 @@ export type ReceiptContentDetail = {
     title: string,
     summary: string,
     details: string,
+    thumbnail: string | null,
     receipt_status_config__reference_config__name: string,
     created: string,
     updated: string,
