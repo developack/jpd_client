@@ -3,13 +3,14 @@ import { Link } from "react-router"
 import { Button } from "@/components/ui/button"
 import { Pencil, EllipsisVertical, Tag, Eye } from "lucide-react"
 import { Table, TableRow, TableHead, TableCell, TableHeader, TableBody } from "@/components/ui/table"
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
+import { DataTablePagination } from "@/components/data-table/DataTablePagination"
 import { KeywordDetailDialog } from "@/pages/projects/project-detail/keywords/KeywordDetailDialog"
 import type { Keyword, KeywordsTableProps } from "@/types/keyword.types"
 import { formatDate } from "@/utils/date"
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 
 
-export const KeywordsTable = ({ keywords }: KeywordsTableProps) => {
+export const KeywordsTable = ({ keywords, page, onPageChange }: KeywordsTableProps) => {
     const [dialogOpen, setDialogOpen] = useState(false)
     const [selectedKeyword, setSelectedKeyword] = useState<Keyword | null>(null)
 
@@ -32,7 +33,7 @@ export const KeywordsTable = ({ keywords }: KeywordsTableProps) => {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {keywords.map((keyword) => (
+                    {keywords?.results.map((keyword) => (
                         <TableRow key={keyword.id}>
                             <TableCell>
                                 <Tooltip>
@@ -66,13 +67,16 @@ export const KeywordsTable = ({ keywords }: KeywordsTableProps) => {
                     ))}
                 </TableBody>
             </Table>
-            <div className="flex items-center justify-between border-t p-3">
-                <div className="flex items-center gap-2">
-                    <Button variant="outline" disabled>قبلی</Button>
-                    <Button variant="outline" disabled>بعدی</Button>
-                </div>
-                <span className="text-sm text-text-secondary">نمایش 1 تا 6 از 6 مورد</span>
-            </div>
+            <DataTablePagination
+                pagination={{
+                    page_size: keywords?.page_size ?? 0,
+                    count: keywords?.count ?? 0,
+                    next: keywords?.next ?? null,
+                    previous: keywords?.previous ?? null
+                }}
+                page={page}
+                onPageChange={onPageChange}
+            />
             <KeywordDetailDialog open={dialogOpen} onOpenChange={setDialogOpen} keyword={selectedKeyword} />
         </div>
     )

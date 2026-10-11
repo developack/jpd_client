@@ -1,3 +1,6 @@
+import type { PaginatedResponse } from "./common.types"
+
+
 export type Keyword = {
     id: string,
     project: string,
@@ -22,7 +25,7 @@ export type NewProjectErrors = {
 export type NewKeywordDialogProps = {
     open: boolean,
     onOpenChange: React.Dispatch<React.SetStateAction<boolean>>
-    onKeywordCreated: (keyword: Keyword) => void,
+    onKeywordCreated: React.Dispatch<React.SetStateAction<Keyword | null>>,
 }
 
 export type KeywordDetailDialogProps = {
@@ -32,5 +35,7 @@ export type KeywordDetailDialogProps = {
 }
 
 export type KeywordsTableProps = {
-    keywords: Keyword[]
+    keywords: PaginatedResponse<Keyword> | null
+    page: number
+    onPageChange: React.Dispatch<React.SetStateAction<number>>
 }

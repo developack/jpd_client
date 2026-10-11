@@ -19,12 +19,10 @@ export const ProjectsPage = () => {
     const [projects, setProjects] = useState<PaginatedResponse<Project> | null>(null)
     const [loading, setLoading] = useState(false)
     const [dialogOpen, setDialogOpen] = useState(false)
+    const [projectCreated, setProjectCreated] = useState<Project | null>(null)
     const [error, setError] = useState<ApiError | null>(null)
     const [page, setPage] = useState(1)
 
-    const handleProjectCreated = (project: Project) => {
-        // setProjects(prev => [...prev, project])
-    }
 
     const fetchProjects = async (): Promise<void> => {
 
@@ -54,7 +52,7 @@ export const ProjectsPage = () => {
     useEffect(() => {
 
         fetchProjects()
-    }, [page])
+    }, [page, projectCreated])
 
     const renderProjectsContent = () => {
         if (loading) {
@@ -65,7 +63,7 @@ export const ProjectsPage = () => {
             return <DataTableError onRetry={fetchProjects} />
         }
 
-        if (projects?.results.length === 0) {
+        if (projects?.count === 0) {
             return <DataTableEmpty title="هنوز پروژه‌ای ایجاد نکرده‌اید" description="برای شروع، اولین پروژه خود را ایجاد کنید." icon={FolderCode} />
         }
 
@@ -89,7 +87,7 @@ export const ProjectsPage = () => {
                         {renderProjectsContent()}
                     </main>
                 </section>
-                <NewProjectDialog onProjectCreated={handleProjectCreated} onDialogOpen={setDialogOpen} />
+                <NewProjectDialog onProjectCreated={setProjectCreated} onDialogOpen={setDialogOpen} />
             </Dialog>
         </PanelLayout>
     )

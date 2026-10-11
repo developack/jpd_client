@@ -12,8 +12,10 @@ import type { PaginationData } from "@/types/component.types"
 
 
 export const DataTablePagination = ({ pagination, page, onPageChange }: PaginationData) => {
+    const start = (page - 1) * pagination.page_size + 1
+    const end = Math.min(page * pagination.page_size, pagination.count)
     const totalPages = Math.ceil(pagination.count / pagination.page_size)
-    const items = getPaginationItems(page, totalPages);
+    const items = getPaginationItems(page, totalPages)
 
     return (
         <div className="flex items-center justify-between border-t p-3">
@@ -41,7 +43,7 @@ export const DataTablePagination = ({ pagination, page, onPageChange }: Paginati
                     </PaginationItem>
                 </PaginationContent>
             </Pagination>
-            <span className="text-sm text-text-secondary">نمایش 1 تا 6 از {pagination.count} مورد</span>
+            <span className="text-sm text-text-secondary">نمایش {start} تا {end} از {pagination.count} مورد</span>
         </div>
     )
 }

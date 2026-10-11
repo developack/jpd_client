@@ -9,27 +9,26 @@ import { KeywordsTable } from "@/pages/projects/project-detail/keywords/Keywords
 import { NewKeywordDialog } from "@/pages/projects/project-detail/keywords/NewKeywordDialog"
 import { KeywordsTableSkeleton } from "@/pages/projects/project-detail/keywords/KeywordsTableSkeleton"
 import type { Keyword } from "@/types/keyword.types"
+import type { PaginatedResponse } from "@/types/common.types"
 import { getApi } from "@/services/api/api"
 import { ApiError } from "@/services/api/ApiError"
 
 
 export const KeywordsTabContent = () => {
-    const [keywords, setKeywords] = useState<Keyword[]>([])
-    const [loading, setLoading] = useState(false)
-    const [error, setError] = useState<ApiError | null>(null)
-    const [dialogOpen, setDialogOpen] = useState(false)
     const {projectId} = useParams()
-
-    const handleKeywordCreated = (keyword: Keyword) => {
-        setKeywords(prev => [...prev, keyword])
-    }
+    const [page, setPage] = useState(1)
+    const [loading, setLoading] = useState(false)
+    const [dialogOpen, setDialogOpen] = useState(false)
+    const [error, setError] = useState<ApiError | null>(null)
+    const [keywordCreated, setKeywordCreated] = useState<Keyword | null>(null)
+    const [keywords, setKeywords] = useState<PaginatedResponse<Keyword> | null>(null)
 
     const fetchKeywords = async (): Promise<void> => {
 
         setLoading(true)
         setError(null)
         try {
-            const keywords = await getApi<Keyword[]>(`/keywords/${projectId}/`)
+            const keywords = await getApi<PaginatedResponse<Keyword>>(`/keywords/${projectId}/?page=${page}`)
             setKeywords(keywords)
 
         } catch (error) {
@@ -51,7 +50,7 @@ export const KeywordsTabContent = () => {
     useEffect(() => {
 
         fetchKeywords()
-    }, [])
+    }, [page, keywordCreated])
 
     const renderKeywordsContent = () => {
         if (loading) {
@@ -62,11 +61,11 @@ export const KeywordsTabContent = () => {
             return <DataTableError onRetry={fetchKeywords} />
         }
 
-        if (keywords.length === 0) {
+        if (keywords?.count === 0) {
             return <DataTableEmpty title="هنوز کلیدواژه‌ای ایجاد نکرده‌اید" description="برای شروع، اولین کلیدواژه خود را ایجاد کنید." icon={Tag} />
         }
 
-        return <KeywordsTable keywords={keywords} />
+        return <KeywordsTable keywords={keywords} page={page} onPageChange={setPage} />
     }
 
     return (
@@ -81,7 +80,7 @@ export const KeywordsTabContent = () => {
                     افزودن کلیدواژه
                 </Button>
             </header>
-            <NewKeywordDialog open={dialogOpen} onOpenChange={setDialogOpen} onKeywordCreated={handleKeywordCreated} />
+            <NewKeywordDialog open={dialogOpen} onOpenChange={setDialogOpen} onKeywordCreated={setKeywordCreated} />
             <main className="mt-5">
                 {renderKeywordsContent()}
             </main>

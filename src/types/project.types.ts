@@ -13,7 +13,7 @@ export type NewProjectErrors = {
 }
 
 export type NewProjectDialogProps = {
-    onProjectCreated: (project: Project) => void,
+    onProjectCreated: React.Dispatch<React.SetStateAction<Project | null>>,
     onDialogOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
