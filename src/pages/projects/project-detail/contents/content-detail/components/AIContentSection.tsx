@@ -9,13 +9,15 @@ import { AIContentTableSkeleton } from "./AIContentTableSkeleton"
 import { DataTableEmpty } from "@/components/data-table/DataTableEmpty"
 import { DataTableError } from "@/components/data-table/DataTableError"
 import type { AIContent } from "@/types/contents.types"
+import type { PaginatedResponse } from "@/types/common.types"
 import { getApi } from "@/services/api/api"
 import { ApiError } from "@/services/api/ApiError"
 
 
 export const AIContentSection = () => {
     const {contentId} = useParams()
-    const [aiContents, setAiContents] = useState<AIContent[]>([])
+    const [page, setPage] = useState(1)
+    const [aiContents, setAiContents] = useState<PaginatedResponse<AIContent> | null>(null)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<ApiError | null>(null)
 
@@ -23,7 +25,7 @@ export const AIContentSection = () => {
 
         setLoading(true)
         try {   
-            const data = await getApi<AIContent[]>(`/ai-contents/${contentId}/`)
+            const data = await getApi<PaginatedResponse<AIContent>>(`/ai-contents/${contentId}/?page=${page}`)
             setAiContents(data)
 
         } catch (error) {
@@ -44,7 +46,7 @@ export const AIContentSection = () => {
 
     useEffect(() => {
         fetchAiContents()
-    }, [])
+    }, [page])
 
     const renderAiContents = () => {
         if (loading) {
@@ -55,11 +57,11 @@ export const AIContentSection = () => {
             return <DataTableError onRetry={fetchAiContents} />
         }
 
-        if (aiContents.length === 0) {
+        if (aiContents?.count === 0) {
             return <DataTableEmpty title="متاسافانه محتوایی یافت نشد" description="برای شروع، اولین محتوای خود را ایجاد کنید." icon={FileText} />
         }
 
-        return <AIContentTable ai_contents={aiContents} />
+        return <AIContentTable ai_contents={aiContents} page={page} onPageChange={setPage} />
     }
 
     return (

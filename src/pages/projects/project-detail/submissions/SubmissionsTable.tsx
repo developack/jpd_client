@@ -2,13 +2,14 @@ import { Link } from "react-router"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Pencil, EllipsisVertical, DatabaseArrowUp } from "lucide-react"
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import { Table, TableRow, TableHead, TableCell, TableHeader, TableBody } from "@/components/ui/table"
+import { DataTablePagination } from "@/components/data-table/DataTablePagination"
 import type { SubmissionsTableProps } from "@/types/submissions.types"
 import { formatDate } from "@/utils/date"
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 
 
-export const SubmissionsTable = ({ submissions }: SubmissionsTableProps) => {
+export const SubmissionsTable = ({ submissions, page, onPageChange }: SubmissionsTableProps) => {
     return (
         <div className="bg-surface overflow-hidden rounded-lg border">
             <Table className="overflow-hidden">
@@ -22,7 +23,7 @@ export const SubmissionsTable = ({ submissions }: SubmissionsTableProps) => {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {submissions.map((submission) => (
+                    {submissions?.results.map((submission) => (
                         <TableRow key={submission.id}>
                             <TableCell>
                                 <Tooltip>
@@ -56,13 +57,16 @@ export const SubmissionsTable = ({ submissions }: SubmissionsTableProps) => {
                     ))}
                 </TableBody>
             </Table>
-            <div className="flex items-center justify-between border-t p-3">
-                <div className="flex items-center gap-2">
-                    <Button variant="outline" disabled>قبلی</Button>
-                    <Button variant="outline" disabled>بعدی</Button>
-                </div>
-                <span className="text-sm text-text-secondary">نمایش 1 تا 6 از 6 مورد</span>
-            </div>
+            <DataTablePagination
+                pagination={{
+                    page_size: submissions?.page_size ?? 0,
+                    count: submissions?.count ?? 0,
+                    next: submissions?.next ?? null,
+                    previous: submissions?.previous ?? null
+                }}
+                page={page}
+                onPageChange={onPageChange}
+            />
         </div>
     )
 }

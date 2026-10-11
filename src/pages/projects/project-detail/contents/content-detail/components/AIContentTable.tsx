@@ -6,11 +6,12 @@ import { Pencil, EllipsisVertical, FileText, Eye } from "lucide-react"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import { Table, TableRow, TableHead, TableCell, TableHeader, TableBody } from "@/components/ui/table"
 import { AIContentDetailDialog } from "./AIContentDetailDialog"
+import { DataTablePagination } from "@/components/data-table/DataTablePagination"
 import type { AIContentTableProps, AIContent } from "@/types/contents.types"
 import { formatDate } from "@/utils/date"
 
 
-export const AIContentTable = ({ ai_contents }: AIContentTableProps) => {
+export const AIContentTable = ({ ai_contents, page, onPageChange }: AIContentTableProps) => {
     const [dialogOpen, setDialogOpen] = useState(false)
     const [selectedContent, setSelectedContent] = useState<AIContent | null>(null)
 
@@ -32,7 +33,7 @@ export const AIContentTable = ({ ai_contents }: AIContentTableProps) => {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {ai_contents.map((ai_content) => (
+                    {ai_contents?.results.map((ai_content) => (
                         <TableRow key={ai_content.id}>
                             <TableCell>
                                 <Tooltip>
@@ -69,13 +70,16 @@ export const AIContentTable = ({ ai_contents }: AIContentTableProps) => {
                     ))}
                 </TableBody>
             </Table>
-            <div className="flex items-center justify-between border-t p-3">
-                <div className="flex items-center gap-2">
-                    <Button variant="outline" disabled>قبلی</Button>
-                    <Button variant="outline" disabled>بعدی</Button>
-                </div>
-                <span className="text-sm text-text-secondary">نمایش 1 تا 6 از 6 مورد</span>
-            </div>
+            <DataTablePagination
+                pagination={{
+                    page_size: ai_contents?.page_size ?? 0,
+                    count: ai_contents?.count ?? 0,
+                    next: ai_contents?.next ?? null,
+                    previous: ai_contents?.previous ?? null
+                }}
+                page={page}
+                onPageChange={onPageChange}
+            />
             <AIContentDetailDialog open={dialogOpen} onOpenChange={setDialogOpen} content={selectedContent} />
         </div>
     )

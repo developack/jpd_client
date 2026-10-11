@@ -4,13 +4,14 @@ import { Button } from "@/components/ui/button"
 import { Pencil, EllipsisVertical, FileText } from "lucide-react"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import { Table, TableRow, TableHead, TableCell, TableHeader, TableBody } from "@/components/ui/table"
+import { DataTablePagination } from "@/components/data-table/DataTablePagination"
 import type { ContentsTableProps } from "@/types/contents.types"
 import { formatDate } from "@/utils/date"
 
 
-export const ContentsTable = ({ contents }: ContentsTableProps) => {
+export const ContentsTable = ({ contents, page, onPageChange }: ContentsTableProps) => {
     const { projectId } = useParams()
-    
+
     return (
         <div className="bg-surface overflow-hidden rounded-lg border">
             <Table className="overflow-hidden">
@@ -24,7 +25,7 @@ export const ContentsTable = ({ contents }: ContentsTableProps) => {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {contents.map((content) => (
+                    {contents?.results.map((content) => (
                         <TableRow key={content.id}>
                             <TableCell>
                                 <Tooltip>
@@ -60,13 +61,16 @@ export const ContentsTable = ({ contents }: ContentsTableProps) => {
                     ))}
                 </TableBody>
             </Table>
-            <div className="flex items-center justify-between border-t p-3">
-                <div className="flex items-center gap-2">
-                    <Button variant="outline" disabled>قبلی</Button>
-                    <Button variant="outline" disabled>بعدی</Button>
-                </div>
-                <span className="text-sm text-text-secondary">نمایش 1 تا 6 از 6 مورد</span>
-            </div>
+            <DataTablePagination
+                pagination={{
+                    page_size: contents?.page_size ?? 0,
+                    count: contents?.count ?? 0,
+                    next: contents?.next ?? null,
+                    previous: contents?.previous ?? null
+                }}
+                page={page}
+                onPageChange={onPageChange}
+            />
         </div>
     )
 }

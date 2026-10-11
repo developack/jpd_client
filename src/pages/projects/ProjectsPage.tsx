@@ -16,16 +16,14 @@ import { ApiError } from "@/services/api/ApiError"
 
 
 export const ProjectsPage = () => {
-    const [projects, setProjects] = useState<PaginatedResponse<Project> | null>(null)
+    const [page, setPage] = useState(1)
     const [loading, setLoading] = useState(false)
     const [dialogOpen, setDialogOpen] = useState(false)
-    const [projectCreated, setProjectCreated] = useState<Project | null>(null)
     const [error, setError] = useState<ApiError | null>(null)
-    const [page, setPage] = useState(1)
-
+    const [projectCreated, setProjectCreated] = useState<Project | null>(null)
+    const [projects, setProjects] = useState<PaginatedResponse<Project> | null>(null)
 
     const fetchProjects = async (): Promise<void> => {
-
         setLoading(true)
         setError(null)
         try {

@@ -1,3 +1,6 @@
+import type { PaginatedResponse } from "./common.types"
+
+
 export type Receipt = {
     id: string,
     name: string, 
@@ -7,5 +10,7 @@ export type Receipt = {
 }
 
 export type ReceiptsTableProps = {
-    receipts: Receipt[]
+    page: number,
+    onPageChange: React.Dispatch<React.SetStateAction<number>>
+    receipts: PaginatedResponse<Receipt> | null
 }

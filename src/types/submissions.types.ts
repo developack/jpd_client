@@ -1,3 +1,6 @@
+import type { PaginatedResponse } from "./common.types"
+
+
 export type Submission = {
     id: string,
     name: string,
@@ -7,5 +10,7 @@ export type Submission = {
 }
 
 export type SubmissionsTableProps = {
-    submissions: Submission[]
+    submissions: PaginatedResponse<Submission> | null
+    page: number
+    onPageChange: React.Dispatch<React.SetStateAction<number>>
 }

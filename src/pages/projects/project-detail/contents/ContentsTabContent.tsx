@@ -9,12 +9,14 @@ import { ContentsTable } from "@/pages/projects/project-detail/contents/Contents
 import { NewContentDialog } from "@/pages/projects/project-detail/contents/NewContentDialog"
 import { ContentsTableSkeleton } from "@/pages/projects/project-detail/contents/ContentsTableSkeleton"
 import type { Content } from "@/types/contents.types"
+import type { PaginatedResponse } from "@/types/common.types"
 import { getApi } from "@/services/api/api"
 import { ApiError } from "@/services/api/ApiError"
 
 
 export const ContentsTabContent = () => {
-    const [contents, setContents] = useState<Content[]>([])
+    const [page, setPage] = useState(1)
+    const [contents, setContents] = useState<PaginatedResponse<Content> | null>(null)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<ApiError | null>(null)
     const [dialogOpen, setDialogOpen] = useState(false)
@@ -24,7 +26,7 @@ export const ContentsTabContent = () => {
 
         setLoading(true)
         try {
-            const data = await getApi<Content[]>(`/receipt-contents/${projectId}/`)
+            const data = await getApi<PaginatedResponse<Content>>(`/receipt-contents/${projectId}/?page=${page}`)
             setContents(data)
 
         } catch (error) {
@@ -45,7 +47,7 @@ export const ContentsTabContent = () => {
 
     useEffect(() => {
         fetchContents()
-    }, [])
+    }, [page])
 
     const renderContentsContent = () => {
         if (loading) {
@@ -56,11 +58,11 @@ export const ContentsTabContent = () => {
             return <DataTableError onRetry={fetchContents} />
         }
 
-        if (contents.length === 0) {
+        if (contents?.count === 0) {
             return <DataTableEmpty title="هنوز محتوایی ایجاد نکرده‌اید" description="برای شروع، اولین محتوای خود را ایجاد کنید." icon={FileText} />
         }
 
-        return <ContentsTable contents={contents} />
+        return <ContentsTable contents={contents} page={page} onPageChange={setPage} />
     }
 
     return (

@@ -1,3 +1,6 @@
+import type { PaginatedResponse } from "./common.types"
+
+
 export type Content = {
     id: string,
     title: string,
@@ -7,7 +10,9 @@ export type Content = {
 }
 
 export type ContentsTableProps = {
-    contents: Content[]
+    contents: PaginatedResponse<Content> | null
+    page: number
+    onPageChange: React.Dispatch<React.SetStateAction<number>>
 }
 
 export type AIContent = {
@@ -64,7 +69,9 @@ export type ContentDetailProps = {
 }
 
 export type AIContentTableProps = {
-    ai_contents: AIContent[]
+    ai_contents: PaginatedResponse<AIContent> | null
+    page: number
+    onPageChange: React.Dispatch<React.SetStateAction<number>>
 }
 
 export type AIContentDetailDialogProps = {

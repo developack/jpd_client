@@ -9,12 +9,14 @@ import { ReceiptsTable } from "@/pages/projects/project-detail/receipts/Receipts
 import { NewReceiptDialog } from "@/pages/projects/project-detail/receipts/NewReceiptDialog"
 import { ReceiptsTableSkeleton } from "@/pages/projects/project-detail/receipts/ReceiptsTableSkeleton"
 import type { Receipt } from "@/types/receipt.types"
+import type { PaginatedResponse } from "@/types/common.types"
 import { getApi } from "@/services/api/api"
 import { ApiError } from "@/services/api/ApiError"
 
 
 export const ReceiptsTabContent = () => {
-    const [receipts, setReceipts] = useState<Receipt[]>([])
+    const [page, setPage] = useState(1)
+    const [receipts, setReceipts] = useState<PaginatedResponse<Receipt> | null>(null)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<ApiError | null>(null)
     const [dialogOpen, setDialogOpen] = useState(false)
@@ -24,7 +26,7 @@ export const ReceiptsTabContent = () => {
 
         setLoading(true)
         try {
-            const data = await getApi<Receipt[]>(`/receipts/${projectId}/`)
+            const data = await getApi<PaginatedResponse<Receipt>>(`/receipts/${projectId}/?page=${page}`)
             setReceipts(data)
 
         } catch (error) {
@@ -45,7 +47,7 @@ export const ReceiptsTabContent = () => {
 
     useEffect(() => {
         fetchReceipts()
-    }, [])
+    }, [page])
 
     const renderReceiptsContent = () => {
         if (loading) {
@@ -56,11 +58,11 @@ export const ReceiptsTabContent = () => {
             return <DataTableError onRetry={fetchReceipts} />
         }
 
-        if (receipts.length === 0) {
+        if (receipts?.count === 0) {
             return <DataTableEmpty title="هنوز منبع خزشی ایجاد نکرده‌اید" description="برای شروع، اولین منبع خزش خود را ایجاد کنید." icon={Database} />
         }
 
-        return <ReceiptsTable receipts={receipts} />
+        return <ReceiptsTable receipts={receipts} page={page} onPageChange={setPage} />
     }
 
     return (

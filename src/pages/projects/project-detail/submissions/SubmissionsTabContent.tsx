@@ -9,12 +9,14 @@ import { SubmissionsTable } from "@/pages/projects/project-detail/submissions/Su
 import { NewSubmissionDialog } from "@/pages/projects/project-detail/submissions/NewSubmissionDialog"
 import { SubmissionsTableSekeleton } from "@/pages/projects/project-detail/submissions/SubmissionsTableSekeleton"
 import type { Submission } from "@/types/submissions.types"
+import type { PaginatedResponse } from "@/types/common.types"
 import { getApi } from "@/services/api/api"
 import { ApiError } from "@/services/api/ApiError"
 
 
 export const SubmissionsTabContent = () => {
-    const [submissions, setSubmissions] = useState<Submission[]>([])
+    const [page, setPage] = useState(1)
+    const [submissions, setSubmissions] = useState<PaginatedResponse<Submission> | null>(null)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<ApiError | null>(null)
     const [dialogOpen, setDialogOpen] = useState(false)
@@ -24,7 +26,7 @@ export const SubmissionsTabContent = () => {
 
         setLoading(true)
         try {
-            const data = await getApi<Submission[]>(`/submissions/${projectId}/`)
+            const data = await getApi<PaginatedResponse<Submission>>(`/submissions/${projectId}/?page=${page}`)
             setSubmissions(data)
 
         } catch (error) {
@@ -45,7 +47,7 @@ export const SubmissionsTabContent = () => {
 
     useEffect(() => {
         fetchSubmissions()
-    }, [])
+    }, [page])
 
     const renderSubmissionsContent = () => {
         if (loading) {
@@ -56,11 +58,11 @@ export const SubmissionsTabContent = () => {
             return <DataTableError onRetry={fetchSubmissions} />
         }
 
-        if (submissions.length === 0) {
+        if (submissions?.count === 0) {
             return <DataTableEmpty title="هنوز منبع انتشاری ایجاد نکرده‌اید" description="برای شروع، اولین منبع انتشار خود را ایجاد کنید." icon={DatabaseArrowUp} />
         }
 
-        return <SubmissionsTable submissions={submissions} />
+        return <SubmissionsTable submissions={submissions} page={page} onPageChange={setPage} />
     }
 
     return (
