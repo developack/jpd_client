@@ -12,7 +12,7 @@ export const SidebarThumbnailSection = ({ content, loading }: ContentDetailSideb
         }
 
         if (content?.thumbnail) {
-            return <img className="rounded-lg h-[180px] object-cover" src={`${BASE_API_URL}${content?.thumbnail}`} alt={`تصویر ${content?.title}`} />
+            return <img className="rounded-lg w-[340px] h-[180px] object-cover" src={`${BASE_API_URL}${content?.thumbnail}`} alt={`تصویر ${content?.title}`} />
         }
 
         return (
@@ -34,7 +34,7 @@ export const SidebarThumbnailSection = ({ content, loading }: ContentDetailSideb
                 <Images className="size-5" />
                 تصویر شاخص
             </div>
-            <div className="flex items-start justify-between p-4">
+            <div className={`flex items-start justify-between p-4 ${content?.thumbnail && 'justify-center'}`}>
                 <figure>
                     {renderThumbnail()}
                 </figure>

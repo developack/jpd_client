@@ -1,3 +1,6 @@
+import type { PaginatedResponse } from "./common.types"
+
+
 export type Project = {
     id: string,
     name: string,
@@ -15,7 +18,9 @@ export type NewProjectDialogProps = {
 }
 
 export type ProjectsTableProps = {
-    projects: Project[]
+    projects: PaginatedResponse<Project> | null
+    page: number,
+    onPageChange: React.Dispatch<React.SetStateAction<number>>
 }
 
 export type ProjectHeaderProps = {

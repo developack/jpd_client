@@ -3,11 +3,12 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { FolderClosed, Pencil, EllipsisVertical } from "lucide-react"
 import { Table, TableRow, TableHead, TableCell, TableHeader, TableBody } from "@/components/ui/table"
+import { DataTablePagination } from "@/components/data-table/DataTablePagination"
 import type { ProjectsTableProps } from "@/types/project.types"
 import { formatDate } from "@/utils/date"
 
 
-export const ProjectTable = ({ projects }: ProjectsTableProps) => {
+export const ProjectTable = ({ projects, page, onPageChange }: ProjectsTableProps) => {
 
     return (
         <div className="bg-surface overflow-hidden rounded-lg border">
@@ -21,7 +22,7 @@ export const ProjectTable = ({ projects }: ProjectsTableProps) => {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {projects.map((project) => (
+                    {projects?.results.map((project) => (
                         <TableRow key={project.id}>
                             <TableCell>
                                 <Link to={`/projects/${project.id}`} className="flex items-center gap-2 text-text hover:underline">
@@ -49,13 +50,16 @@ export const ProjectTable = ({ projects }: ProjectsTableProps) => {
                     ))}
                 </TableBody>
             </Table>
-            <div className="flex items-center justify-between border-t p-3">
-                <div className="flex items-center gap-2">
-                    <Button variant="outline" disabled>قبلی</Button>
-                    <Button variant="outline" disabled>بعدی</Button>
-                </div>
-                <span className="text-sm text-text-secondary">نمایش 1 تا 6 از 6 مورد</span>
-            </div>
+            <DataTablePagination
+                pagination={{
+                    page_size: projects?.page_size ?? 0,
+                    count: projects?.count ?? 0,
+                    next: projects?.next ?? null,
+                    previous: projects?.previous ?? null
+                }}
+                page={page}
+                onPageChange={onPageChange}
+            />
         </div>
     )
 }

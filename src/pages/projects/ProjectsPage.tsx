@@ -10,18 +10,20 @@ import { DataTableError } from "@/components/data-table/DataTableError"
 import { NewProjectDialog } from "@/pages/projects/components/NewProjectDialog"
 import { ProjectsTableSkeleton } from "@/pages/projects/components/ProjectsTableSkeleton"
 import type { Project } from "@/types/project.types"
+import type { PaginatedResponse } from "@/types/common.types"
 import { getApi } from "@/services/api/api"
 import { ApiError } from "@/services/api/ApiError"
 
 
 export const ProjectsPage = () => {
-    const [projects, setProjects] = useState<Project[]>([])
+    const [projects, setProjects] = useState<PaginatedResponse<Project> | null>(null)
     const [loading, setLoading] = useState(false)
     const [dialogOpen, setDialogOpen] = useState(false)
     const [error, setError] = useState<ApiError | null>(null)
+    const [page, setPage] = useState(1)
 
     const handleProjectCreated = (project: Project) => {
-        setProjects(prev => [...prev, project])
+        // setProjects(prev => [...prev, project])
     }
 
     const fetchProjects = async (): Promise<void> => {
@@ -29,8 +31,8 @@ export const ProjectsPage = () => {
         setLoading(true)
         setError(null)
         try {
-            const projects = await getApi<Project[]>("/projects/")
-            setProjects(projects)
+            const data = await getApi<PaginatedResponse<Project>>(`/projects/?page=${page}`)
+            setProjects(data)
 
         } catch (error) {
 
@@ -52,7 +54,7 @@ export const ProjectsPage = () => {
     useEffect(() => {
 
         fetchProjects()
-    }, [])
+    }, [page])
 
     const renderProjectsContent = () => {
         if (loading) {
@@ -63,11 +65,11 @@ export const ProjectsPage = () => {
             return <DataTableError onRetry={fetchProjects} />
         }
 
-        if (projects.length === 0) {
+        if (projects?.results.length === 0) {
             return <DataTableEmpty title="هنوز پروژه‌ای ایجاد نکرده‌اید" description="برای شروع، اولین پروژه خود را ایجاد کنید." icon={FolderCode} />
         }
 
-        return <ProjectTable projects={projects} />
+        return <ProjectTable projects={projects} page={page} onPageChange={setPage} />
     }
 
     return (
