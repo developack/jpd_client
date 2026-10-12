@@ -38,9 +38,7 @@ export const ProjectTable = ({ projects, page, onPageChange }: ProjectsTableProp
                             <TableCell>{formatDate(project.created)}</TableCell>
                             <TableCell className="flex items-center gap-2">
                                 <Button size="icon-sm" variant="outline" disabled>
-                                    <Link to="/project">
-                                        <Pencil />
-                                    </Link>
+                                    <Link to="/project"><Pencil /></Link>
                                 </Button>
                                 <Button size="icon-sm" variant="ghost" disabled>
                                     <EllipsisVertical />

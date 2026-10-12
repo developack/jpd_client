@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useLanguage } from "@/hooks/useLanguage"
+import { useLanguage } from "@/hooks/use-language"
 import { toast } from "@/components/ui/toast"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"

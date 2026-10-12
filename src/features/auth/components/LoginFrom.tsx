@@ -1,23 +1,23 @@
 import { useState } from "react"
-import { Link, useNavigate } from "react-router"
+import { useNavigate, Link } from "react-router"
 import { Input } from "@/components/ui/input"
 import { toast } from "@/components/ui/toast"
 import { Button } from "@/components/ui/button"
 import { Spinner } from "@/components/ui/spinner"
 import { Checkbox } from "@/components/ui/checkbox"
+import { Field, FieldLabel, FieldDescription } from "@/components/ui/field"
+import { useAuth } from "@/features/auth/hooks/useAuth"
+import type { LoginInputs, LoginErrors, LoginFormProps, LoginResponse } from "@/features/auth/types/auth.types"
 import { postApi } from "@/services/api/api"
 import { ApiError } from "@/services/api/ApiError"
-import { useAuth } from "@/features/auth/hooks/useAuth"
-import { Field, FieldLabel, FieldDescription } from "@/components/ui/field"
-import type { LoginInputs, LoginErrors, LoginFormProps, LoginResponse } from "@/features/auth/types/auth.types"
 
 
 export function LoginFrom({ setAuthStep, setTwoFactorToken }: LoginFormProps) {
+    const {login} = useAuth()
     const navigate = useNavigate()
-    const [inputs, setInputs] = useState<LoginInputs>({ email: "", password: "" })
     const [error, setError] = useState<LoginErrors>()
     const [loading, setLoading] = useState<boolean>(false)
-    const { login } = useAuth()
+    const [inputs, setInputs] = useState<LoginInputs>({ email: "", password: "" })
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
         const { name, value } = event.target
@@ -84,7 +84,7 @@ export function LoginFrom({ setAuthStep, setTwoFactorToken }: LoginFormProps) {
     return (
         <form onSubmit={handleSubmit}>
             <Link to="/" className='flex items-end gap-2 mb-8'>
-                <img className='w-[25px]' src="../public/logo.svg" alt="logo" />
+                <img className='w-[25px]' src="/logo.svg" alt="logo" />
                 <span className='font-bold'>جیـکاپیـــک</span>
             </Link>
             <div className="space-y-1.5">
@@ -115,7 +115,6 @@ export function LoginFrom({ setAuthStep, setTwoFactorToken }: LoginFormProps) {
                     {loading ? 'در حال بررسی ...' : 'ورود'}
                 </Button>
             </div>
-
         </form>
     )
 }

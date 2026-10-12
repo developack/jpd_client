@@ -11,14 +11,13 @@ import { ApiError } from "@/services/api/ApiError"
 
 
 export const ProjectDetailPage = () => {
-
-    const [project, setProject] = useState<Project | null>(null)
+    const {projectId} = useParams()
     const [loading, setLoading] = useState(false)
-    const { projectId } = useParams()
+    const [project, setProject] = useState<Project | null>(null)
 
     const fetchProject = async (): Promise<void> => {
-
         setLoading(true)
+
         try {
             const project = await getApi<Project>(`/projects/${projectId}/`)
             setProject(project)
@@ -37,12 +36,10 @@ export const ProjectDetailPage = () => {
         } finally {
             setLoading(false)
         }
-
     }
 
     useEffect(() => {
         fetchProject()
-
     }, [])
 
     return (

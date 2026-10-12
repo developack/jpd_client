@@ -22,6 +22,12 @@ export type NewProjectErrors = {
     name?: string
 }
 
+export type KeywordsTableProps = {
+    keywords: PaginatedResponse<Keyword> | null
+    page: number
+    onPageChange: React.Dispatch<React.SetStateAction<number>>
+}
+
 export type NewKeywordDialogProps = {
     open: boolean,
     onOpenChange: React.Dispatch<React.SetStateAction<boolean>>
@@ -32,10 +38,4 @@ export type KeywordDetailDialogProps = {
     open: boolean,
     onOpenChange: React.Dispatch<React.SetStateAction<boolean>>,
     keyword: Keyword | null
-}
-
-export type KeywordsTableProps = {
-    keywords: PaginatedResponse<Keyword> | null
-    page: number
-    onPageChange: React.Dispatch<React.SetStateAction<number>>
 }

@@ -1,16 +1,5 @@
 import type { LucideIcon } from "lucide-react"
-import type { PaginatedResponse } from "./common.types"
 
-
-export type DataTableEmptyProps = {
-    title: string,
-    description: string,
-    icon: LucideIcon
-}
-
-export type DataTableErrorProps = {
-    onRetry: () => void
-}
 
 export type TagInputProps = {
     value: string[],
@@ -21,6 +10,16 @@ export type TagInputProps = {
 export type ExpandableTextProps = {
     className?: string,
     text: string | undefined
+}
+
+export type DataTableEmptyProps = {
+    title: string,
+    description: string,
+    icon: LucideIcon
+}
+
+export type DataTableErrorProps = {
+    onRetry: () => void
 }
 
 export type Pagination = {

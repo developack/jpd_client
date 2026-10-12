@@ -8,17 +8,17 @@ import { ApiError } from "@/services/api/ApiError"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Field, FieldDescription, FieldGroup } from "@/components/ui/field"
 import { DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import type { NewProjectErrors, NewProjectDialogProps, Project } from "@/types/project.types"
+import type { Project, NewProjectDialogProps, NewProjectErrors } from "@/types/project.types"
 import { postApi } from "@/services/api/api"
 
 
 export const NewProjectDialog = ({ onProjectCreated, onDialogOpen }: NewProjectDialogProps) => {
-    const [ error, setError ] = useState<NewProjectErrors>()
-    const [ loading, setLoading ] = useState(false)
-    const [ formData, setFormData ] = useState({name: "", activity_status: true})
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState<NewProjectErrors>()
+    const [formData, setFormData] = useState({name: "", activity_status: true})
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-        const { name, value } = event.target
+        const {name, value} = event.target
         setFormData((prev) => ({ ...prev, [name]: value }))
         setError((prev) => ({ ...prev, [name]: undefined }))
     }

@@ -1,7 +1,7 @@
 import { Skeleton } from "@/components/ui/skeleton"
 import { Image, Images } from "lucide-react"
 import type { ContentDetailSidebarProps } from "@/types/contents.types"
-import { BASE_API_URL } from "@/config/api"
+import { SERVER_BASE_URL } from "@/config/api"
 
 
 export const SidebarThumbnailSection = ({ content, loading }: ContentDetailSidebarProps) => {
@@ -12,7 +12,7 @@ export const SidebarThumbnailSection = ({ content, loading }: ContentDetailSideb
         }
 
         if (content?.thumbnail) {
-            return <img className="rounded-lg w-[340px] h-[180px] object-cover" src={`${BASE_API_URL}${content?.thumbnail}`} alt={`تصویر ${content?.title}`} />
+            return <img className="rounded-lg w-[340px] h-[180px] object-cover" src={`${SERVER_BASE_URL}${content?.thumbnail}`} alt={`تصویر ${content?.title}`} />
         }
 
         return (

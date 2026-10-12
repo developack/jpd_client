@@ -12,9 +12,8 @@ export type NewProjectErrors = {
     name?: string
 }
 
-export type NewProjectDialogProps = {
-    onProjectCreated: React.Dispatch<React.SetStateAction<Project | null>>,
-    onDialogOpen: React.Dispatch<React.SetStateAction<boolean>>
+export type ProjectHeaderProps = {
+    project: Project | null
 }
 
 export type ProjectsTableProps = {
@@ -23,8 +22,9 @@ export type ProjectsTableProps = {
     onPageChange: React.Dispatch<React.SetStateAction<number>>
 }
 
-export type ProjectHeaderProps = {
-    project: Project | null
+export type NewProjectDialogProps = {
+    onProjectCreated: React.Dispatch<React.SetStateAction<Project | null>>,
+    onDialogOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export type ProjectDetailPageTabs = "overview" | "keywords" | "receipts" | "submissions" | "contents"

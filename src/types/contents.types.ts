@@ -1,3 +1,4 @@
+import type { Project } from "./project.types"
 import type { PaginatedResponse } from "./common.types"
 
 
@@ -9,12 +10,6 @@ export type Content = {
     created: string
 }
 
-export type ContentsTableProps = {
-    contents: PaginatedResponse<Content> | null
-    page: number
-    onPageChange: React.Dispatch<React.SetStateAction<number>>
-}
-
 export type AIContent = {
     id: string,
     language: string,
@@ -23,13 +18,6 @@ export type AIContent = {
     details?: string,
     has_media?: boolean,
     status: boolean,
-    created: string
-}
-
-export type Project = {
-    id: string,
-    name: string,
-    activity_status: boolean,
     created: string
 }
 
@@ -54,13 +42,16 @@ export type ReceiptContentDetail = {
     reference_config: ReferenceConfig,
 }
 
-export type ContentDetailHeaderProps = {
-    content: ReceiptContentDetail | null
+export type ContentsTableProps = {
+    contents: PaginatedResponse<Content> | null
+    page: number
+    onPageChange: React.Dispatch<React.SetStateAction<number>>
 }
 
-export type ContentDetailSidebarProps = {
-    content: ReceiptContentDetail | null
-    loading: boolean
+export type AIContentTableProps = {
+    ai_contents: PaginatedResponse<AIContent> | null
+    page: number
+    onPageChange: React.Dispatch<React.SetStateAction<number>>
 }
 
 export type ContentDetailProps = {
@@ -68,10 +59,13 @@ export type ContentDetailProps = {
     loading: boolean
 }
 
-export type AIContentTableProps = {
-    ai_contents: PaginatedResponse<AIContent> | null
-    page: number
-    onPageChange: React.Dispatch<React.SetStateAction<number>>
+export type ContentDetailHeaderProps = {
+    content: ReceiptContentDetail | null
+}
+
+export type ContentDetailSidebarProps = {
+    content: ReceiptContentDetail | null
+    loading: boolean
 }
 
 export type AIContentDetailDialogProps = {

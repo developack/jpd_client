@@ -1,27 +1,27 @@
 import { REGEXP_ONLY_DIGITS } from "input-otp"
 import { useState, useEffect } from "react"
-import { Link, useNavigate } from "react-router"
+import { useNavigate, Link } from "react-router"
 import { ArrowRight } from "lucide-react"
-import { postApi } from "@/services/api/api"
 import { Button } from "@/components/ui/button"
 import { toast } from "@/components/ui/toast"
 import { Spinner } from "@/components/ui/spinner"
-import { ApiError } from "@/services/api/ApiError"
-import { useAuth } from "@/features/auth/hooks/useAuth"
 import { Field, FieldDescription } from "@/components/ui/field"
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp"
+import { useAuth } from "@/features/auth/hooks/useAuth"
 import type { OTPFormProps, OTPErrors, AuthTokens, OTPErrorResponse } from "@/features/auth/types/auth.types"
+import { postApi } from "@/services/api/api"
+import { ApiError } from "@/services/api/ApiError"
 
 
 export function OTPForm({ setAuthStep, token }: OTPFormProps) {
     const otpResendSeconds = 120
+    const { login } = useAuth()
     const navigate = useNavigate()
     const [otp, setOtp] = useState("")
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<OTPErrors>()
     const [countdown, setCountdown] = useState(otpResendSeconds)
     const [resendLoading, setResendLoading] = useState(false)
-    const { login } = useAuth()
 
     useEffect(() => {
         if (countdown === 0) return
@@ -54,10 +54,9 @@ export function OTPForm({ setAuthStep, token }: OTPFormProps) {
         try {
             setError({ otp: "" })
             setLoading(true)
-
             const response: AuthTokens = await postApi("/verify-2fa/", { code: otp, token: token })
-
             login(response)
+
             toast.add({
                 type: "success",
                 description: "ورود شما با موفقیت انجام شد",
@@ -124,7 +123,7 @@ export function OTPForm({ setAuthStep, token }: OTPFormProps) {
                     <ArrowRight className="size-4" />
                 </Button>
                 <Link to="/" className='flex items-end gap-2'>
-                    <img className='w-[25px]' src="../public/logo.svg" alt="logo" />
+                    <img className='w-[25px]' src="/logo.svg" alt="logo" />
                     <span className='font-bold'>جیـکاپیـــک</span>
                 </Link>
             </div>
@@ -135,23 +134,23 @@ export function OTPForm({ setAuthStep, token }: OTPFormProps) {
             <p className="text-lg font-bold mt-8">کد تایید را وارد کنید</p>
             <div className="flex flex-col gap-5 mt-4">
                 <Field>
-                    <InputOTP id="digits-only" className="w-full" maxLength={6} value={otp} onChange={(value) => { setOtp(value); setError({ otp: "" }) }} pattern={REGEXP_ONLY_DIGITS}>
+                    <InputOTP id="digits-only" className="w-full" maxLength={6} value={otp}
+                        onChange={(value) => { setOtp(value); setError({ otp: "" }) }} pattern={REGEXP_ONLY_DIGITS}>
                         <InputOTPGroup className="flex-row-reverse w-full gap-2 !ring-0 !outline-none">
-                            <InputOTPSlot index={0} aria-invalid={!!error?.otp} className="w-full flex-1 h-12 text-lg rounded-lg border" />
-                            <InputOTPSlot index={1} aria-invalid={!!error?.otp} className="w-full flex-1 h-12 text-lg rounded-lg border" />
-                            <InputOTPSlot index={2} aria-invalid={!!error?.otp} className="w-full flex-1 h-12 text-lg rounded-lg border" />
-                            <InputOTPSlot index={3} aria-invalid={!!error?.otp} className="w-full flex-1 h-12 text-lg rounded-lg border" />
-                            <InputOTPSlot index={4} aria-invalid={!!error?.otp} className="w-full flex-1 h-12 text-lg rounded-lg border" />
-                            <InputOTPSlot index={5} aria-invalid={!!error?.otp} className="w-full flex-1 h-12 text-lg rounded-lg border" />
+                            {Array.from({ length: 6 }).map((_, index) => (
+                                <InputOTPSlot index={index} className="w-full flex-1 h-12 text-lg rounded-lg border" aria-invalid={!!error?.otp} />
+                            ))}
                         </InputOTPGroup>
                     </InputOTP>
                     {error?.otp && <FieldDescription className="text-right">{error?.otp}</FieldDescription>}
                 </Field>
-                {resendLoading ? <p className="text-xs text-center text-text-secondary my-5">در حال ارسال مجدد کد تایید ...</p> :
-                    countdown === 0 ? <Button variant="link" onClick={handleResend2FA} className="text-xs text-text cursor-pointer my-[10px]">ارسال مجدد کد تایید</Button> :
-                        <p className="text-xs text-center text-text-secondary my-5">ارسال مجدد کد تا {countdown} ثانیه دیگر</p>
-                }
 
+                {resendLoading ? (<p className="text-xs text-center text-text-secondary my-5">در حال ارسال مجدد کد تایید ...</p>) : (
+                    countdown === 0
+                        ? (<Button variant="link" onClick={handleResend2FA} className="text-xs text-text cursor-pointer my-[10px]">ارسال مجدد کد تایید</Button>)
+                        : (<p className="text-xs text-center text-text-secondary my-5">ارسال مجدد کد تا {countdown} ثانیه دیگر</p>)
+                    )
+                }
                 <Button type="submit" className="text-white p-4" disabled={loading}>
                     {loading && <Spinner data-icon="inline-start" />}
                     {loading ? 'در حال ورود به سامانه ...' : 'تایید و ادامه'}

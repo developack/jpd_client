@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
-import { FolderCode, PlusIcon } from "lucide-react"
-import { Button } from "@/components/ui/button"
 import { toast } from "@/components/ui/toast"
+import { Button } from "@/components/ui/button"
+import { FolderCode, PlusIcon } from "lucide-react"
 import { Dialog, DialogTrigger } from "@/components/ui/dialog"
 import { PanelLayout } from "@/components/layout/PanelLayout"
 import { ProjectTable } from "@/pages/projects/components/ProjectsTable"
@@ -48,7 +48,6 @@ export const ProjectsPage = () => {
     }
 
     useEffect(() => {
-
         fetchProjects()
     }, [page, projectCreated])
 
@@ -56,15 +55,12 @@ export const ProjectsPage = () => {
         if (loading) {
             return <ProjectsTableSkeleton />
         }
-
         if (error) {
             return <DataTableError onRetry={fetchProjects} />
         }
-
         if (projects?.count === 0) {
             return <DataTableEmpty title="هنوز پروژه‌ای ایجاد نکرده‌اید" description="برای شروع، اولین پروژه خود را ایجاد کنید." icon={FolderCode} />
         }
-
         return <ProjectTable projects={projects} page={page} onPageChange={setPage} />
     }
 

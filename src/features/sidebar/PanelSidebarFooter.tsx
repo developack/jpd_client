@@ -24,7 +24,7 @@ export function PanelSidebarFooter() {
                     : <DropdownMenuTrigger>
                         <div className="flex w-full cursor-pointer items-center gap-2 rounded-md p-2 hover:bg-sidebar-accent">
                             <Avatar className="size-8">
-                                <AvatarImage src="/../public/img/avatar.png" />
+                                <AvatarImage src="/img/avatar.png" />
                                 <AvatarFallback>{user?.username.charAt(0).toUpperCase()}</AvatarFallback>
                             </Avatar>
 
@@ -42,7 +42,7 @@ export function PanelSidebarFooter() {
                         <DropdownMenuLabel className="font-normal">
                             <div className="flex items-center gap-2">
                                 <Avatar className="size-8">
-                                    <AvatarImage src="/../public/img/avatar.png" />
+                                    <AvatarImage src="/img/avatar.png" />
                                     <AvatarFallback>{user?.username.charAt(0).toUpperCase()}</AvatarFallback>
                                 </Avatar>
                                 <div className="flex min-w-0 flex-col">
