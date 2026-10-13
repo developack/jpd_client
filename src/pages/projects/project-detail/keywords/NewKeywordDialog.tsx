@@ -1,29 +1,28 @@
 import { useEffect, useState } from "react"
-import { useLanguage } from "@/hooks/use-language"
-import { toast } from "@/components/ui/toast"
+// import { toast } from "@/components/ui/toast"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { Spinner } from "@/components/ui/spinner"
-import { ApiError } from "@/services/api/ApiError"
-import { Checkbox } from "@/components/ui/checkbox"
+// import { Spinner } from "@/components/ui/spinner"
+// import { ApiError } from "@/services/api/ApiError"
+// import { Checkbox } from "@/components/ui/checkbox"
 import { TagInput } from "@/components/ui/tag-input"
-import { Field, FieldDescription, FieldGroup } from "@/components/ui/field"
+import { Field, FieldGroup } from "@/components/ui/field"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+// import { useLanguage } from "@/hooks/use-language"
 import type { KeywordType, NewKeywordDialogProps } from "@/types/keyword.types"
-import type { Language } from "@/types/common.types"
+// import type { Language } from "@/types/common.types"
 import { getApi } from "@/services/api/api"
 
 
-
-export const NewKeywordDialog = ({ open, onOpenChange, onKeywordCreated }: NewKeywordDialogProps) => {
-    const [error, setError] = useState()
-    const [keyWordloading, setKeywordLoading] = useState(false)
-    const [formData, setFormData] = useState({ name: "", activity_status: true })
-    const { languages, languageItems } = useLanguage()
-    const [keywordTypes, setKeywordTypes] = useState<KeywordType[]>([])
+export const NewKeywordDialog = ({ open, onOpenChange }: NewKeywordDialogProps) => {
+    // const [error, setError] = useState()
+    // const { languages, languageItems } = useLanguage()
     const [keywords, setKeywords] = useState<string[]>([])
+    // const [keyWordloading, setKeywordLoading] = useState(false)
+    const [keywordTypes, setKeywordTypes] = useState<KeywordType[]>([])
+    // const [formData, setFormData] = useState({ name: "", activity_status: true })
 
     const fetchKeywordTypes = async (): Promise<void> => {
         try {
@@ -47,8 +46,6 @@ export const NewKeywordDialog = ({ open, onOpenChange, onKeywordCreated }: NewKe
 
     const handleSubmit = async (event: React.SubmitEvent<HTMLFormElement>): Promise<void> => {
         event.preventDefault()
-
-        console.log("submit")
     }
 
     return (
@@ -66,7 +63,7 @@ export const NewKeywordDialog = ({ open, onOpenChange, onKeywordCreated }: NewKe
                         </Field>
                         <Field>
                             <Label>زبان</Label>
-                            <Select items={languageItems}>
+                            {/* <Select items={languageItems}>
                                 <SelectTrigger className="w-full">
                                     <SelectValue placeholder="انتخاب زبان" />
                                 </SelectTrigger>
@@ -79,7 +76,7 @@ export const NewKeywordDialog = ({ open, onOpenChange, onKeywordCreated }: NewKe
                                         ))}
                                     </SelectGroup>
                                 </SelectContent>
-                            </Select>
+                            </Select> */}
                         </Field>
                         <Field>
                             <Label>نوع</Label>
@@ -107,10 +104,10 @@ export const NewKeywordDialog = ({ open, onOpenChange, onKeywordCreated }: NewKe
                         <DialogClose>
                             <Button variant="outline">بستن</Button>
                         </DialogClose>
-                        <Button type="submit" className="w-32" disabled={keyWordloading}>
+                        {/* <Button type="submit" className="w-32" disabled={keyWordloading}>
                             {keyWordloading && <Spinner data-icon="inline-start" />}
                             {keyWordloading ? 'در حال ثبت ...' : 'ثبت کلیدواژه'}
-                        </Button>
+                        </Button> */}
                     </DialogFooter>
                 </form>
             </DialogContent>

@@ -2,8 +2,8 @@ import { useState } from "react"
 import { Link } from "react-router"
 import { Button } from "@/components/ui/button"
 import { Pencil, EllipsisVertical, Tag, Eye } from "lucide-react"
-import { Table, TableRow, TableHead, TableCell, TableHeader, TableBody } from "@/components/ui/table"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
+import { Table, TableRow, TableHead, TableCell, TableHeader, TableBody } from "@/components/ui/table"
 import { DataTablePagination } from "@/components/data-table/DataTablePagination"
 import { KeywordDetailDialog } from "@/pages/projects/project-detail/keywords/KeywordDetailDialog"
 import type { Keyword, KeywordsTableProps } from "@/types/keyword.types"
@@ -39,7 +39,7 @@ export const KeywordsTable = ({ keywords, page, onPageChange }: KeywordsTablePro
                                 <Tooltip>
                                     <TooltipTrigger className="flex items-center gap-2">
                                         <Tag className="size-4 shrink-0" />
-                                        <span className="block truncate max-w-[350px]">
+                                        <span className="block truncate max-w-87.5">
                                             {keyword.name}
                                         </span>
                                     </TooltipTrigger>

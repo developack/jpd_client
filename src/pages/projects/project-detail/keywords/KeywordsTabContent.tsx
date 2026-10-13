@@ -24,9 +24,9 @@ export const KeywordsTabContent = () => {
     const [keywords, setKeywords] = useState<PaginatedResponse<Keyword> | null>(null)
 
     const fetchKeywords = async (): Promise<void> => {
-
         setLoading(true)
         setError(null)
+
         try {
             const keywords = await getApi<PaginatedResponse<Keyword>>(`/keywords/${projectId}/?page=${page}`)
             setKeywords(keywords)
@@ -48,7 +48,6 @@ export const KeywordsTabContent = () => {
     }
 
     useEffect(() => {
-
         fetchKeywords()
     }, [page, keywordCreated])
 
