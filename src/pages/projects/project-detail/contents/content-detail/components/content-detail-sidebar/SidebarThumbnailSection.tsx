@@ -1,18 +1,18 @@
-import { Skeleton } from "@/components/ui/skeleton"
-import { Image, Images } from "lucide-react"
-import type { ContentDetailSidebarProps } from "@/types/contents.types"
 import { SERVER_BASE_URL } from "@/config/api"
+import { Image, Images } from "lucide-react"
+import { Skeleton } from "@/components/ui/skeleton"
+import type { ContentDetailSidebarProps } from "@/types/contents.types"
 
 
 export const SidebarThumbnailSection = ({ content, loading }: ContentDetailSidebarProps) => {
 
     const renderThumbnail = () => {
         if (loading) {
-            return <Skeleton className="h-[180px] w-full bg-amber-300 rounded-lg" />
+            return <Skeleton className="h-45 w-full rounded-lg" />
         }
 
         if (content?.thumbnail) {
-            return <img className="rounded-lg w-[340px] h-[180px] object-cover" src={`${SERVER_BASE_URL}${content?.thumbnail}`} alt={`تصویر ${content?.title}`} />
+            return <img className="rounded-lg w-85 h-45 object-cover" src={`${SERVER_BASE_URL}${content?.thumbnail}`} alt={`تصویر ${content?.title}`} />
         }
 
         return (

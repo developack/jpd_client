@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/button"
 import { Link } from "react-router"
+import { Button } from "@/components/ui/button"
 import { MoveRight, Pencil } from "lucide-react"
 import type { ContentDetailHeaderProps } from "@/types/contents.types"
 

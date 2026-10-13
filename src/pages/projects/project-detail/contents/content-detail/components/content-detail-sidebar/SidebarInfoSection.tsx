@@ -21,7 +21,7 @@ export const SidebarInfoSection = ({ content, loading }: ContentDetailSidebarPro
                     <Clock className="size-5" />
                     <div className="flex flex-col gap-1 text-sm text-text-secondary">
                         انتشار در تاریخ
-                        {loading ? <Skeleton className="w-[85px] h-4" /> : (
+                        {loading ? <Skeleton className="w-21.25 h-4" /> : (
                             <span className="text-xs text-text">{formatDate(content?.created)}</span>
                         )}
                     </div>
@@ -30,7 +30,7 @@ export const SidebarInfoSection = ({ content, loading }: ContentDetailSidebarPro
                     <Layers className="size-5" />
                     <div className="flex flex-col gap-1 text-sm text-text-secondary">
                         منتشر شده در
-                        {loading ? <Skeleton className="w-[85px] h-4" /> : (
+                        {loading ? <Skeleton className="w-21.25 h-4" /> : (
                             <span className="text-xs text-text">{content?.reference_config.name}</span>
                         )}
                     </div>
@@ -39,7 +39,7 @@ export const SidebarInfoSection = ({ content, loading }: ContentDetailSidebarPro
                     <MapPinSearch className="size-5" />
                     <div className="flex flex-col gap-1 text-sm text-text-secondary">
                         آدرس منبع
-                        {loading ? <Skeleton className="w-[150px] h-5" /> : (
+                        {loading ? <Skeleton className="w-37.5 h-5" /> : (
                             content?.reference_config.url && <Link target="_blank" to={content?.reference_config.url}>
                                 <Badge variant="secondary">{content?.reference_config.url}</Badge>
                             </Link>
@@ -50,9 +50,9 @@ export const SidebarInfoSection = ({ content, loading }: ContentDetailSidebarPro
                     <CircleCheck className="size-5" />
                     <div className="flex flex-col gap-1 text-sm text-text-secondary">
                         وضعیت منبع
-                        {loading ? <Skeleton className="w-[70px] h-5" /> : (
+                        {loading ? <Skeleton className="w-17.5 h-5" /> : (
                             <Badge variant={content?.reference_config?.activity_status ? 'active' : 'destructive'} className="select-none">
-                                <span className={`rounded-full w-[5px] h-[5px] ${content?.reference_config?.activity_status ? 'bg-success' : 'bg-destructive'}`}></span>
+                                <span className={`rounded-full w-1.25 h-1.25 ${content?.reference_config?.activity_status ? 'bg-success' : 'bg-destructive'}`}></span>
                                 {content?.reference_config?.activity_status ? 'فعال' : 'غیرفعال'}
                             </Badge>
                         )}
@@ -62,7 +62,7 @@ export const SidebarInfoSection = ({ content, loading }: ContentDetailSidebarPro
                     <Clock className="size-5" />
                     <div className="flex flex-col gap-1 text-sm text-text-secondary">
                         آخرین بروزرسانی
-                        {loading ? <Skeleton className="w-[85px] h-4" /> : (
+                        {loading ? <Skeleton className="w-21.25 h-4" /> : (
                             <span className="text-xs text-text">{formatDate(content?.updated)}</span>
                         )}
                     </div>

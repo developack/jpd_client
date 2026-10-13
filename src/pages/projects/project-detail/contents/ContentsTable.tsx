@@ -32,7 +32,7 @@ export const ContentsTable = ({ contents, page, onPageChange }: ContentsTablePro
                                     <TooltipTrigger>
                                         <Link className="flex items-center gap-2" to={`/projects/${projectId}/contents/${content.id}/`}>
                                             <FileText className="size-4 shrink-0" />
-                                            <span className="block truncate max-w-[400px] hover:underline">
+                                            <span className="block truncate max-w-100 hover:underline">
                                                 {content.title}
                                             </span>
                                         </Link>

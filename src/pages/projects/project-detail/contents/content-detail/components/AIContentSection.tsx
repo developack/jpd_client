@@ -17,13 +17,13 @@ import { ApiError } from "@/services/api/ApiError"
 export const AIContentSection = () => {
     const {contentId} = useParams()
     const [page, setPage] = useState(1)
-    const [aiContents, setAiContents] = useState<PaginatedResponse<AIContent> | null>(null)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<ApiError | null>(null)
+    const [aiContents, setAiContents] = useState<PaginatedResponse<AIContent> | null>(null)
 
     const fetchAiContents = async (): Promise<void> => {
-
         setLoading(true)
+        
         try {   
             const data = await getApi<PaginatedResponse<AIContent>>(`/ai-contents/${contentId}/?page=${page}`)
             setAiContents(data)

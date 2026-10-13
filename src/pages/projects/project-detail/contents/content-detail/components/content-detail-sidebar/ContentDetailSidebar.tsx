@@ -8,7 +8,7 @@ import type { ContentDetailSidebarProps } from "@/types/contents.types"
 export const ContentDetailSidebar = ({ content, loading }: ContentDetailSidebarProps) => {
 
     return (
-        <aside className="sticky top-[81px]">
+        <aside className="sticky top-2.25">
             <div className="flex flex-col gap-5">
                 <SidebarInfoSection content={content} loading={loading} />
                 <SidebarThumbnailSection content={content} loading={loading} />

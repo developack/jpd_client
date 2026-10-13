@@ -21,7 +21,7 @@ export const ContentsTableSkeleton = () => {
                     {Array.from({ length: 5 }).map((_, index) => (
                         <TableRow key={index}>
                             <TableCell>
-                                <Skeleton className="h-5 w-[400px]" />
+                                <Skeleton className="h-5 w-100" />
                             </TableCell>
                             <TableCell><Skeleton className="h-5 w-32 rounded-full" /></TableCell>
                             <TableCell><Skeleton className="h-5 w-10.5" /></TableCell>

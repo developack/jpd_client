@@ -2,23 +2,22 @@ import { useState, useEffect } from "react"
 import { useParams } from "react-router"
 import { toast } from "@/components/ui/toast"
 import { PanelLayout } from "@/components/layout/PanelLayout"
+import { ContentDetailMain } from "./components/ContentDetailMain"
 import { ContentDetailHeader } from "./components/ContentDetailHeader"
 import { ContentDetailSidebar } from "./components/content-detail-sidebar/ContentDetailSidebar"
-import { ContentDetailMain } from "./components/ContentDetailMain"
 import type { ReceiptContentDetail } from "@/types/contents.types"
 import { getApi } from "@/services/api/api"
 import { ApiError } from "@/services/api/ApiError"
 
 
 export const ContentDetailPage = () => {
-
-    const [content, setContent] = useState<ReceiptContentDetail | null>(null)
+    const {contentId} = useParams()
     const [loading, setLoading] = useState(false)
-    const { contentId } = useParams()
+    const [content, setContent] = useState<ReceiptContentDetail | null>(null)
 
     const fetchContent = async (): Promise<void> => {
-
         setLoading(true)
+
         try {
             const data = await getApi<ReceiptContentDetail>(`/receipt-content/${contentId}/`)
             setContent(data)

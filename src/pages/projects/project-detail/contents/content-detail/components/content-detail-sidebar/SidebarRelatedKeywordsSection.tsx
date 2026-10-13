@@ -12,10 +12,10 @@ export const SidebarRelatedKeywordsSection = ({ content, loading }: ContentDetai
                 کلیدواژه‌های مرتبط
             </div>
             <div className="flex items-start justify-between p-4">
-                <div className="flex flex-wrap gap-3 max-h-[150px] overflow-y-auto">
+                <div className="flex flex-wrap gap-3 max-h-37.5 overflow-y-auto">
                     {loading ? (
                         Array.from({ length: 5 }).map((_, index) => (
-                            <Skeleton key={index} className="h-5 w-[65px]" />
+                            <Skeleton key={index} className="h-5 w-16.25" />
                         ))
                     ) : (
                         content?.related_keywords.map((keyword) => (

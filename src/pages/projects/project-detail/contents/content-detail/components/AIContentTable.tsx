@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Link } from "react-router"
-import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
 import { Pencil, EllipsisVertical, FileText, Eye } from "lucide-react"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import { Table, TableRow, TableHead, TableCell, TableHeader, TableBody } from "@/components/ui/table"
@@ -39,7 +39,7 @@ export const AIContentTable = ({ ai_contents, page, onPageChange }: AIContentTab
                                 <Tooltip>
                                     <TooltipTrigger className="flex items-center gap-2">
                                         <FileText className="size-4 shrink-0" />
-                                        <span className="block truncate max-w-[300px]">
+                                        <span className="block truncate max-w-75">
                                             {ai_content.title}
                                         </span>
                                     </TooltipTrigger>

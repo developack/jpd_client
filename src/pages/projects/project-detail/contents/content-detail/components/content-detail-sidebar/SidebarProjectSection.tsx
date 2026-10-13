@@ -20,11 +20,11 @@ export const SidebarProjectSection = ({ content, loading }: ContentDetailSidebar
                         <FolderOpen className="size-8=7 stroke-white" />
                     </span>
                     <div className="flex flex-col gap-1">
-                        {loading ? (<Skeleton className="w-[100px] h-5" />) : (
+                        {loading ? (<Skeleton className="w-25 h-5" />) : (
                             <h5 className="font-semibold text-sm">{content?.project.name}</h5>
                         )}
                         <p className="text-text-secondary text-xs flex items-center gap-1.5">تاریخ ایجاد: {loading ? (
-                            <Skeleton className="w-[50px] h-4" />
+                            <Skeleton className="w-12.5 h-4" />
                         ) : (
                             <span>{formatDate(content?.created)}</span>
                         )}</p>
@@ -32,7 +32,7 @@ export const SidebarProjectSection = ({ content, loading }: ContentDetailSidebar
                 </div>
                 <div className="flex items-center gap-2">
                     <Badge variant={content?.project?.activity_status ? 'active' : 'destructive'} className="select-none">
-                        <span className={`rounded-full w-[5px] h-[5px] ${content?.project?.activity_status ? 'bg-success' : 'bg-destructive'}`}></span>
+                        <span className={`rounded-full w-1.25 h-1.25 ${content?.project?.activity_status ? 'bg-success' : 'bg-destructive'}`}></span>
                         {content?.project?.activity_status ? 'فعال' : 'غیرفعال'}
                     </Badge>
                     <Button variant="secondary" size="icon-xs">
