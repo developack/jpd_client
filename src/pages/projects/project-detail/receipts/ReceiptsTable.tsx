@@ -29,7 +29,7 @@ export const ReceiptsTable = ({ receipts, page, onPageChange }: ReceiptsTablePro
                                 <Tooltip>
                                     <TooltipTrigger className="flex items-center gap-2">
                                         <Database className="size-4 shrink-0" />
-                                        <span className="block truncate max-w-[350px]">
+                                        <span className="block truncate max-w-87.5">
                                             {receipt.name}
                                         </span>
                                     </TooltipTrigger>
