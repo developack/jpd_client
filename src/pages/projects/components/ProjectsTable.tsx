@@ -9,7 +9,6 @@ import { formatDate } from "@/utils/date"
 
 
 export const ProjectTable = ({ projects, page, onPageChange }: ProjectsTableProps) => {
-
     return (
         <div className="bg-surface overflow-hidden rounded-lg border">
             <Table className="overflow-hidden">

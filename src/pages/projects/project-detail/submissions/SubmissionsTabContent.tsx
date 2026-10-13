@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react"
 import { useParams } from "react-router"
-import { PlusIcon, DatabaseArrowUp } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { toast } from "@/components/ui/toast"
+import { PlusIcon, DatabaseArrowUp } from "lucide-react"
 import { DataTableEmpty } from "@/components/data-table/DataTableEmpty"
 import { DataTableError } from "@/components/data-table/DataTableError"
 import { SubmissionsTable } from "@/pages/projects/project-detail/submissions/SubmissionsTable"
-import { NewSubmissionDialog } from "@/pages/projects/project-detail/submissions/NewSubmissionDialog"
 import { SubmissionsTableSekeleton } from "@/pages/projects/project-detail/submissions/SubmissionsTableSekeleton"
 import type { Submission } from "@/types/submissions.types"
 import type { PaginatedResponse } from "@/types/common.types"
@@ -15,16 +14,16 @@ import { ApiError } from "@/services/api/ApiError"
 
 
 export const SubmissionsTabContent = () => {
-    const [page, setPage] = useState(1)
-    const [submissions, setSubmissions] = useState<PaginatedResponse<Submission> | null>(null)
-    const [loading, setLoading] = useState(false)
-    const [error, setError] = useState<ApiError | null>(null)
-    const [dialogOpen, setDialogOpen] = useState(false)
     const { projectId } = useParams()
+    const [page, setPage] = useState(1)
+    const [loading, setLoading] = useState(false)
+    // const [dialogOpen, setDialogOpen] = useState(false)
+    const [error, setError] = useState<ApiError | null>(null)
+    const [submissions, setSubmissions] = useState<PaginatedResponse<Submission> | null>(null)
 
     const fetchSubmissions = async (): Promise<void> => {
-
         setLoading(true)
+
         try {
             const data = await getApi<PaginatedResponse<Submission>>(`/submissions/${projectId}/?page=${page}`)
             setSubmissions(data)
@@ -39,7 +38,6 @@ export const SubmissionsTabContent = () => {
                 type: "error",
                 description: "خطا در برقراری ارتباط با سرور"
             })
-
         } finally {
             setLoading(false)
         }
@@ -72,12 +70,16 @@ export const SubmissionsTabContent = () => {
                     <h2 className="text-xl font-bold">منابع انتشار</h2>
                     <p className="text-text-secondary text-sm">منابع انتشار را برای این پروژه مدیریت کنید</p>
                 </div>
-                <Button onClick={() => setDialogOpen(true)} disabled>
+                {/* <Button onClick={() => setDialogOpen(true)} disabled>
+                    <PlusIcon className="size-4" />
+                    افزودن منبع
+                </Button> */}
+                <Button disabled>
                     <PlusIcon className="size-4" />
                     افزودن منبع
                 </Button>
             </header>
-            {/* <NewSubmissionDialog open={dialogOpen} onOpenChange={setDialogOpen} onReceiptCreated={handleReceiptCreated} /> */}
+            {/* <NewSubmissionDialog open={dialogOpen} onOpenChange={setDialogOpen} onSubmissionCreated={handleReceiptCreated} /> */}
             <main className="mt-5">
                 {renderSubmissionsContent()}
             </main>

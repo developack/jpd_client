@@ -26,17 +26,18 @@ export const ProjectsPage = () => {
     const fetchProjects = async (): Promise<void> => {
         setLoading(true)
         setError(null)
+        
         try {
             const data = await getApi<PaginatedResponse<Project>>(`/projects/?page=${page}`)
             setProjects(data)
 
         } catch (error) {
-
             if (error instanceof ApiError) {
                 setError(error)
             } else {
                 setError(new ApiError("خطا در برقراری ارتباط با سرور", 0, ""))
             }
+            
             toast.add({
                 type: "error",
                 description: "خطا در برقراری ارتباط با سرور",

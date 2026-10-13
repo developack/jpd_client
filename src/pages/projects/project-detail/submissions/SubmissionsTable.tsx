@@ -29,7 +29,7 @@ export const SubmissionsTable = ({ submissions, page, onPageChange }: Submission
                                 <Tooltip>
                                     <TooltipTrigger className="flex items-center gap-2">
                                         <DatabaseArrowUp className="size-4 shrink-0" />
-                                        <span className="block truncate max-w-[350px]">
+                                        <span className="block truncate max-w-87.5">
                                             {submission.name}
                                         </span>
                                     </TooltipTrigger>

@@ -123,7 +123,7 @@ export function OTPForm({ setAuthStep, token }: OTPFormProps) {
                     <ArrowRight className="size-4" />
                 </Button>
                 <Link to="/" className='flex items-end gap-2'>
-                    <img className='w-[25px]' src="/logo.svg" alt="logo" />
+                    <img className='w-6.5' src="/logo.svg" alt="logo" />
                     <span className='font-bold'>جیـکاپیـــک</span>
                 </Link>
             </div>
@@ -136,7 +136,7 @@ export function OTPForm({ setAuthStep, token }: OTPFormProps) {
                 <Field>
                     <InputOTP id="digits-only" className="w-full" maxLength={6} value={otp}
                         onChange={(value) => { setOtp(value); setError({ otp: "" }) }} pattern={REGEXP_ONLY_DIGITS}>
-                        <InputOTPGroup className="flex-row-reverse w-full gap-2 !ring-0 !outline-none">
+                        <InputOTPGroup className="flex-row-reverse w-full gap-2 ring-0! outline-none!">
                             {Array.from({ length: 6 }).map((_, index) => (
                                 <InputOTPSlot index={index} className="w-full flex-1 h-12 text-lg rounded-lg border" aria-invalid={!!error?.otp} />
                             ))}
@@ -147,7 +147,7 @@ export function OTPForm({ setAuthStep, token }: OTPFormProps) {
 
                 {resendLoading ? (<p className="text-xs text-center text-text-secondary my-5">در حال ارسال مجدد کد تایید ...</p>) : (
                     countdown === 0
-                        ? (<Button variant="link" onClick={handleResend2FA} className="text-xs text-text cursor-pointer my-[10px]">ارسال مجدد کد تایید</Button>)
+                        ? (<Button variant="link" onClick={handleResend2FA} className="text-xs text-text cursor-pointer my-2.5">ارسال مجدد کد تایید</Button>)
                         : (<p className="text-xs text-center text-text-secondary my-5">ارسال مجدد کد تا {countdown} ثانیه دیگر</p>)
                     )
                 }

@@ -21,7 +21,7 @@ export const SubmissionsTableSekeleton = () => {
                     {Array.from({ length: 5 }).map((_, index) => (
                         <TableRow key={index}>
                             <TableCell>
-                                <Skeleton className="h-5 w-[250px]" />
+                                <Skeleton className="h-5 w-62.5" />
                             </TableCell>
                             <TableCell><Skeleton className="h-5 w-32 rounded-full" /></TableCell>
                             <TableCell><Skeleton className="h-5 w-15" /></TableCell>

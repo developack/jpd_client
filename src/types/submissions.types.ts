@@ -14,3 +14,9 @@ export type SubmissionsTableProps = {
     page: number
     onPageChange: React.Dispatch<React.SetStateAction<number>>
 }
+
+export type NewSubmissionDialogProps = {
+    open: boolean,
+    onOpenChange: React.Dispatch<React.SetStateAction<boolean>>
+    onSubmissionCreated: React.Dispatch<React.SetStateAction<Submission | null>>,
+}

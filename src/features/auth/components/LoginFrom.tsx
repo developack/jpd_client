@@ -84,7 +84,7 @@ export function LoginFrom({ setAuthStep, setTwoFactorToken }: LoginFormProps) {
     return (
         <form onSubmit={handleSubmit}>
             <Link to="/" className='flex items-end gap-2 mb-8'>
-                <img className='w-[25px]' src="/logo.svg" alt="logo" />
+                <img className='w-6.5' src="/logo.svg" alt="logo" />
                 <span className='font-bold'>جیـکاپیـــک</span>
             </Link>
             <div className="space-y-1.5">

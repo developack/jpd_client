@@ -1,6 +1,6 @@
 import { Link } from "react-router"
-import { Skeleton } from "@/components/ui/skeleton"
 import { Button } from "@/components/ui/button"
+import { Skeleton } from "@/components/ui/skeleton"
 import { FolderOpen, Calendar, EllipsisVertical, Pencil, MoveRight } from "lucide-react"
 
 
@@ -27,7 +27,7 @@ export const ProjectHeaderSkeleton = () => {
                     <div>
                         <div className="flex flex-col gap-2">
                             <h1 className="text-2xl font-bold flex items-center gap-2">
-                                <Skeleton className="w-50 h-[28px]" />
+                                <Skeleton className="w-50 h-7" />
                                 <Skeleton className="w-10 h-5 rounded-full" />
                             </h1>
                         </div>

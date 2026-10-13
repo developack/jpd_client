@@ -1,6 +1,6 @@
 import { Link } from "react-router"
-import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
 import { Pencil, MoveRight, FolderOpen, Calendar, EllipsisVertical } from "lucide-react"
 import type { ProjectHeaderProps } from "@/types/project.types"
 import { formatDate } from "@/utils/date"
@@ -31,7 +31,7 @@ export const ProjectHeader = ({ project }: ProjectHeaderProps) => {
                             <h1 className="text-xl font-bold flex items-center gap-2">
                                 {project?.name}
                                 <Badge variant={project?.activity_status ? 'active' : 'destructive'} className="select-none">
-                                    <span className={`rounded-full w-[5px] h-[5px] ${project?.activity_status ? 'bg-success' : 'bg-destructive'}`}></span>
+                                    <span className={`rounded-full w-1.25 h-1.25 ${project?.activity_status ? 'bg-success' : 'bg-destructive'}`}></span>
                                     {project?.activity_status ? 'فعال' : 'غیرفعال'}
                                 </Badge>
                             </h1>

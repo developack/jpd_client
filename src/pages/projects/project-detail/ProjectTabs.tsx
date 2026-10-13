@@ -1,12 +1,12 @@
 import { useParams } from "react-router"
 import { useNavigate } from "react-router"
-import { Building, Database, FileText, Tag, DatabaseArrowUp } from "lucide-react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { OverviewTabContent } from "@/pages/projects/project-detail/overview/OverviewTabContent"
-import { KeywordsTabContent } from "@/pages/projects/project-detail/keywords/KeywordsTabContent"
-import { ReceiptsTabContent } from "@/pages/projects/project-detail/receipts/ReceiptsTabContent"
-import { SubmissionsTabContent } from "@/pages/projects/project-detail/submissions/SubmissionsTabContent"
-import { ContentsTabContent } from "@/pages/projects/project-detail/contents/ContentsTabContent"
+import { Building, Database, FileText, Tag, DatabaseArrowUp } from "lucide-react"
+import { OverviewTabContent } from "./overview/OverviewTabContent"
+import { KeywordsTabContent } from "./keywords/KeywordsTabContent"
+import { ReceiptsTabContent } from "./receipts/ReceiptsTabContent"
+import { SubmissionsTabContent } from "./submissions/SubmissionsTabContent"
+import { ContentsTabContent } from "./contents/ContentsTabContent"
 
 
 export const ProjectTabs = () => {
