@@ -1,11 +1,13 @@
 export type LoginInputs = {
     email: string,
     password: string
+    captcha: string
 }
 
 export type LoginErrors = {
     email?: string,
     password?: string
+    captcha?: string
 }
 
 export type OTPErrors = {
@@ -58,4 +60,9 @@ export type OTPErrorResponse = {
 
 export type RefreshAccessTokenResponse = {
     access: string
+}
+
+export type CaptchaData = {
+    captcha_hashkey: string
+    captcha_image_url: string
 }
