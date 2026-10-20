@@ -2,16 +2,39 @@ import { ApiError } from "./ApiError"
 import { BASE_API_URL } from "@/config/api"
 import { getTokens } from "@/features/auth/utils/token"
 import { refreshAccessToken } from "@/features/auth/services/authApi"
+import type { ApiErrorResponse } from "@/types/api"
 
 
 const parseApiResponse = async <T>(response: Response): Promise<T> => {
-    const responseBody = await response.json()
+    const responseText = await response.text()
+    let responseBody: unknown
 
-    if (!response.ok) {
-        throw new ApiError(responseBody?.detail, response.status, responseBody)
+    try {
+        responseBody = JSON.parse(responseText)
+    } catch {
+        throw new ApiError(
+            "پاسخ نامعتبر از سرور دریافت شد.",
+            response.status,
+            {
+                error: {
+                    code: "invalid_response",
+                    message: "پاسخ نامعتبر از سرور دریافت شد.",
+                },
+            }
+        )
     }
 
-    return responseBody
+    if (!response.ok) {
+        const errorResponse = responseBody as ApiErrorResponse
+
+        throw new ApiError(
+            errorResponse.error.message,
+            response.status,
+            errorResponse
+        )
+    }
+
+    return responseBody as T
 }
 
 export const apiRequest = async <T>(endpoint: string, options: RequestInit, isRetry: boolean = false): Promise<T> => {

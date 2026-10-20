@@ -10,7 +10,7 @@ import { DataTableError } from "@/components/data-table/DataTableError"
 import { NewProjectDialog } from "@/pages/projects/components/NewProjectDialog"
 import { ProjectsTableSkeleton } from "@/pages/projects/components/ProjectsTableSkeleton"
 import type { Project } from "@/types/project.types"
-import type { PaginatedResponse } from "@/types/common.types"
+import type { PaginatedResponse } from "@/types/api"
 import { getApi } from "@/services/api/api"
 import { ApiError } from "@/services/api/ApiError"
 
@@ -31,18 +31,25 @@ export const ProjectsPage = () => {
             const data = await getApi<PaginatedResponse<Project>>(`/projects/?page=${page}`)
             setProjects(data)
 
-        } catch (error) {
-            if (error instanceof ApiError) {
-                setError(error)
+        } catch (e) {
+            if (e instanceof ApiError) {
+                setError(e)
             } else {
-                setError(new ApiError("خطا در برقراری ارتباط با سرور", 0, ""))
+                setError(
+                    new ApiError("خطا در برقراری ارتباط با سرور", 0, {
+                            error: {
+                                code: "network_error",
+                                message: "خطا در برقراری ارتباط با سرور",
+                            },
+                        }
+                    )
+                )
+                
+                toast.add({
+                    type: "error",
+                    description: "دریافت لیست پروژه‌ها با مشکل مواجه شد.",
+                })
             }
-            
-            toast.add({
-                type: "error",
-                description: "خطا در برقراری ارتباط با سرور",
-            })
-
         } finally {
             setLoading(false)
         }
@@ -59,7 +66,7 @@ export const ProjectsPage = () => {
         if (error) {
             return <DataTableError onRetry={fetchProjects} />
         }
-        if (projects?.count === 0) {
+        if (projects?.meta.count === 0) {
             return <DataTableEmpty title="هنوز پروژه‌ای ایجاد نکرده‌اید" description="برای شروع، اولین پروژه خود را ایجاد کنید." icon={FolderCode} />
         }
         return <ProjectTable projects={projects} page={page} onPageChange={setPage} />

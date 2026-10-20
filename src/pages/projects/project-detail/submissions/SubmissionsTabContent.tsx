@@ -8,7 +8,7 @@ import { DataTableError } from "@/components/data-table/DataTableError"
 import { SubmissionsTable } from "@/pages/projects/project-detail/submissions/SubmissionsTable"
 import { SubmissionsTableSekeleton } from "@/pages/projects/project-detail/submissions/SubmissionsTableSekeleton"
 import type { Submission } from "@/types/submissions.types"
-import type { PaginatedResponse } from "@/types/common.types"
+import type { PaginatedResponse } from "@/types/api"
 import { getApi } from "@/services/api/api"
 import { ApiError } from "@/services/api/ApiError"
 
@@ -25,19 +25,28 @@ export const SubmissionsTabContent = () => {
         setLoading(true)
 
         try {
-            const data = await getApi<PaginatedResponse<Submission>>(`/submissions/${projectId}/?page=${page}`)
-            setSubmissions(data)
+            const response = await getApi<PaginatedResponse<Submission>>(`/submissions/${projectId}/?page=${page}`)
+            setSubmissions(response)
 
-        } catch (error) {
-            if (error instanceof ApiError) {
-                setError(error)
+        } catch (e) {
+            if (e instanceof ApiError) {
+                setError(e)
             } else {
-                setError(new ApiError("خطا در برقراری ارتباط با سرور", 0, ""))
+                setError(
+                    new ApiError("خطا در برقراری ارتباط با سرور", 0, {
+                            error: {
+                                code: "network_error",
+                                message: "خطا در برقراری ارتباط با سرور",
+                            },
+                        }
+                    )
+                )
+                
+                toast.add({
+                    type: "error",
+                    description: "دریافت لیست پروژه‌ها با مشکل مواجه شد.",
+                })
             }
-            toast.add({
-                type: "error",
-                description: "خطا در برقراری ارتباط با سرور"
-            })
         } finally {
             setLoading(false)
         }
@@ -56,7 +65,7 @@ export const SubmissionsTabContent = () => {
             return <DataTableError onRetry={fetchSubmissions} />
         }
 
-        if (submissions?.count === 0) {
+        if (submissions?.meta.count === 0) {
             return <DataTableEmpty title="هنوز منبع انتشاری ایجاد نکرده‌اید" description="برای شروع، اولین منبع انتشار خود را ایجاد کنید." icon={DatabaseArrowUp} />
         }
 

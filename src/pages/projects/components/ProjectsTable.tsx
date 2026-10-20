@@ -21,7 +21,7 @@ export const ProjectTable = ({ projects, page, onPageChange }: ProjectsTableProp
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {projects?.results.map((project) => (
+                    {projects?.data.map((project) => (
                         <TableRow key={project.id}>
                             <TableCell>
                                 <Link to={`/projects/${project.id}`} className="flex items-center gap-2 text-text hover:underline">
@@ -49,10 +49,10 @@ export const ProjectTable = ({ projects, page, onPageChange }: ProjectsTableProp
             </Table>
             <DataTablePagination
                 pagination={{
-                    page_size: projects?.page_size ?? 0,
-                    count: projects?.count ?? 0,
-                    next: projects?.next ?? null,
-                    previous: projects?.previous ?? null
+                    page_size: projects?.meta.page_size ?? 0,
+                    count: projects?.meta.count ?? 0,
+                    next: projects?.meta.next ?? null,
+                    previous: projects?.meta.previous ?? null
                 }}
                 page={page}
                 onPageChange={onPageChange}

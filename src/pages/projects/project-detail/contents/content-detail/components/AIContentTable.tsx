@@ -33,7 +33,7 @@ export const AIContentTable = ({ ai_contents, page, onPageChange }: AIContentTab
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {ai_contents?.results.map((ai_content) => (
+                    {ai_contents?.data.map((ai_content) => (
                         <TableRow key={ai_content.id}>
                             <TableCell>
                                 <Tooltip>
@@ -72,10 +72,10 @@ export const AIContentTable = ({ ai_contents, page, onPageChange }: AIContentTab
             </Table>
             <DataTablePagination
                 pagination={{
-                    page_size: ai_contents?.page_size ?? 0,
-                    count: ai_contents?.count ?? 0,
-                    next: ai_contents?.next ?? null,
-                    previous: ai_contents?.previous ?? null
+                    page_size: ai_contents?.meta.page_size ?? 0,
+                    count: ai_contents?.meta.count ?? 0,
+                    next: ai_contents?.meta.next ?? null,
+                    previous: ai_contents?.meta.previous ?? null
                 }}
                 page={page}
                 onPageChange={onPageChange}

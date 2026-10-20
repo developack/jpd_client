@@ -1,4 +1,4 @@
-import type { PaginatedResponse } from "./common.types"
+import type { PaginatedResponse } from "./api"
 
 
 export type Receipt = {

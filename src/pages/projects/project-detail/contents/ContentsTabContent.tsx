@@ -9,7 +9,7 @@ import { ContentsTable } from "@/pages/projects/project-detail/contents/Contents
 // import { NewContentDialog } from "@/pages/projects/project-detail/contents/NewContentDialog"
 import { ContentsTableSkeleton } from "@/pages/projects/project-detail/contents/ContentsTableSkeleton"
 import type { Content } from "@/types/contents.types"
-import type { PaginatedResponse } from "@/types/common.types"
+import type { PaginatedResponse } from "@/types/api"
 import { getApi } from "@/services/api/api"
 import { ApiError } from "@/services/api/ApiError"
 
@@ -29,17 +29,25 @@ export const ContentsTabContent = () => {
             const data = await getApi<PaginatedResponse<Content>>(`/receipt-contents/${projectId}/?page=${page}`)
             setContents(data)
 
-        } catch (error) {
-            if (error instanceof ApiError) {
-                setError(error)
+        } catch (e) {
+            if (e instanceof ApiError) {
+                setError(e)
             } else {
-                setError(new ApiError("خطا در برقراری ارتباط با سرور", 0, ""))
+                setError(
+                    new ApiError("خطا در برقراری ارتباط با سرور", 0, {
+                            error: {
+                                code: "network_error",
+                                message: "خطا در برقراری ارتباط با سرور",
+                            },
+                        }
+                    )
+                )
+                
+                toast.add({
+                    type: "error",
+                    description: "دریافت لیست پروژه‌ها با مشکل مواجه شد.",
+                })
             }
-            toast.add({
-                type: "error",
-                description: "خطا در برقراری ارتباط با سرور"
-            })
-
         } finally {
             setLoading(false)
         }
@@ -58,7 +66,7 @@ export const ContentsTabContent = () => {
             return <DataTableError onRetry={fetchContents} />
         }
 
-        if (contents?.count === 0) {
+        if (contents?.meta.count === 0) {
             return <DataTableEmpty title="هنوز محتوایی ایجاد نکرده‌اید" description="برای شروع، اولین محتوای خود را ایجاد کنید." icon={FileText} />
         }
 

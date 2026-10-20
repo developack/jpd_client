@@ -9,7 +9,7 @@ import { KeywordsTable } from "@/pages/projects/project-detail/keywords/Keywords
 import { NewKeywordDialog } from "@/pages/projects/project-detail/keywords/NewKeywordDialog"
 import { KeywordsTableSkeleton } from "@/pages/projects/project-detail/keywords/KeywordsTableSkeleton"
 import type { Keyword } from "@/types/keyword.types"
-import type { PaginatedResponse } from "@/types/common.types"
+import type { PaginatedResponse } from "@/types/api"
 import { getApi } from "@/services/api/api"
 import { ApiError } from "@/services/api/ApiError"
 
@@ -31,17 +31,25 @@ export const KeywordsTabContent = () => {
             const keywords = await getApi<PaginatedResponse<Keyword>>(`/keywords/${projectId}/?page=${page}`)
             setKeywords(keywords)
 
-        } catch (error) {
-            if (error instanceof ApiError) {
-                setError(error)
+        } catch (e) {
+            if (e instanceof ApiError) {
+                setError(e)
             } else {
-                setError(new ApiError("خطا در برقراری ارتباط با سرور", 0, ""))
+                setError(
+                    new ApiError("خطا در برقراری ارتباط با سرور", 0, {
+                            error: {
+                                code: "network_error",
+                                message: "خطا در برقراری ارتباط با سرور",
+                            },
+                        }
+                    )
+                )
+                
+                toast.add({
+                    type: "error",
+                    description: "دریافت لیست پروژه‌ها با مشکل مواجه شد.",
+                })
             }
-            toast.add({
-                type: "error",
-                description: "خطا در برقراری ارتباط با سرور",
-            })
-
         } finally {
             setLoading(false)
         }
@@ -60,7 +68,7 @@ export const KeywordsTabContent = () => {
             return <DataTableError onRetry={fetchKeywords} />
         }
 
-        if (keywords?.count === 0) {
+        if (keywords?.meta.count === 0) {
             return <DataTableEmpty title="هنوز کلیدواژه‌ای ایجاد نکرده‌اید" description="برای شروع، اولین کلیدواژه خود را ایجاد کنید." icon={Tag} />
         }
 

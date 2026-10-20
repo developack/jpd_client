@@ -1,9 +1,13 @@
-export class ApiError<T = unknown> extends Error {
-    status: number
-    data: T
+import type { ApiErrorResponse } from "@/types/api"
 
-    constructor(message: string, status:number, data:T) {
+
+export class ApiError extends Error {
+    status: number
+    data: ApiErrorResponse
+
+    constructor(message: string, status: number, data: ApiErrorResponse) {
         super(message)
+        this.name = "ApiError"
         this.status = status
         this.data = data
     }

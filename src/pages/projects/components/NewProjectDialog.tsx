@@ -43,11 +43,10 @@ export const NewProjectDialog = ({ onProjectCreated, onDialogOpen }: NewProjectD
             setError(errors)
             return
         }
-
         setLoading(true)
         try {
-            const project: Project = await postApi("/projects/", {...formData, created: new Date()})
-            onProjectCreated(project)
+            const response: Project = await postApi("/projects/", {...formData, created: new Date()})
+            onProjectCreated(response)
             onDialogOpen(false)
             setFormData({name: "", activity_status: true})
             toast.add({
@@ -56,17 +55,25 @@ export const NewProjectDialog = ({ onProjectCreated, onDialogOpen }: NewProjectD
             })
 
         } catch (error) {
-            let message = "خطا در برقراری ارتباط با سرور"
-
             if (error instanceof ApiError) {
-                message = error.message
+                const fields = error.data.error.fields
+        
+                if (fields?.name?.length) {
+                    setError({
+                        name: fields.name[0],
+                    })
+                } else {
+                    toast.add({
+                        type: "error",
+                        description: error.data.error.message || "ایجاد پروژه با مشکل مواجه شد.",
+                    })
+                }
+            } else {
+                toast.add({
+                    type: "error",
+                    description: "خطا در برقراری ارتباط با سرور",
+                })
             }
-            toast.add({
-                type: "error",
-                description: message,
-            })
-            onDialogOpen(false)
-
         } finally {
             setLoading(false)
         }

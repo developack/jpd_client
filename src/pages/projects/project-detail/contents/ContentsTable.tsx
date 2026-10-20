@@ -25,7 +25,7 @@ export const ContentsTable = ({ contents, page, onPageChange }: ContentsTablePro
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {contents?.results.map((content) => (
+                    {contents?.data.map((content) => (
                         <TableRow key={content.id}>
                             <TableCell>
                                 <Tooltip>
@@ -63,10 +63,10 @@ export const ContentsTable = ({ contents, page, onPageChange }: ContentsTablePro
             </Table>
             <DataTablePagination
                 pagination={{
-                    page_size: contents?.page_size ?? 0,
-                    count: contents?.count ?? 0,
-                    next: contents?.next ?? null,
-                    previous: contents?.previous ?? null
+                    page_size: contents?.meta.page_size ?? 0,
+                    count: contents?.meta.count ?? 0,
+                    next: contents?.meta.next ?? null,
+                    previous: contents?.meta.previous ?? null
                 }}
                 page={page}
                 onPageChange={onPageChange}

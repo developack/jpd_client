@@ -33,7 +33,7 @@ export const KeywordsTable = ({ keywords, page, onPageChange }: KeywordsTablePro
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {keywords?.results.map((keyword) => (
+                    {keywords?.data.map((keyword) => (
                         <TableRow key={keyword.id}>
                             <TableCell>
                                 <Tooltip>
@@ -69,10 +69,10 @@ export const KeywordsTable = ({ keywords, page, onPageChange }: KeywordsTablePro
             </Table>
             <DataTablePagination
                 pagination={{
-                    page_size: keywords?.page_size ?? 0,
-                    count: keywords?.count ?? 0,
-                    next: keywords?.next ?? null,
-                    previous: keywords?.previous ?? null
+                    page_size: keywords?.meta.page_size ?? 0,
+                    count: keywords?.meta.count ?? 0,
+                    next: keywords?.meta.next ?? null,
+                    previous: keywords?.meta.previous ?? null
                 }}
                 page={page}
                 onPageChange={onPageChange}

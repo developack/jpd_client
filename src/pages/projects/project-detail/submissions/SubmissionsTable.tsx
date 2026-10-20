@@ -23,7 +23,7 @@ export const SubmissionsTable = ({ submissions, page, onPageChange }: Submission
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {submissions?.results.map((submission) => (
+                    {submissions?.data.map((submission) => (
                         <TableRow key={submission.id}>
                             <TableCell>
                                 <Tooltip>
@@ -59,10 +59,10 @@ export const SubmissionsTable = ({ submissions, page, onPageChange }: Submission
             </Table>
             <DataTablePagination
                 pagination={{
-                    page_size: submissions?.page_size ?? 0,
-                    count: submissions?.count ?? 0,
-                    next: submissions?.next ?? null,
-                    previous: submissions?.previous ?? null
+                    page_size: submissions?.meta.page_size ?? 0,
+                    count: submissions?.meta.count ?? 0,
+                    next: submissions?.meta.next ?? null,
+                    previous: submissions?.meta.previous ?? null
                 }}
                 page={page}
                 onPageChange={onPageChange}

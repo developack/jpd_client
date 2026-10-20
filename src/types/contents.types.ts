@@ -1,5 +1,5 @@
 import type { Project } from "./project.types"
-import type { PaginatedResponse } from "./common.types"
+import type { PaginatedResponse } from "./api"
 
 
 export type Content = {

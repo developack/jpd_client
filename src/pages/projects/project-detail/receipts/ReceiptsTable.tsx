@@ -23,7 +23,7 @@ export const ReceiptsTable = ({ receipts, page, onPageChange }: ReceiptsTablePro
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {receipts?.results.map((receipt) => (
+                    {receipts?.data.map((receipt) => (
                         <TableRow key={receipt.id}>
                             <TableCell>
                                 <Tooltip>
@@ -59,10 +59,10 @@ export const ReceiptsTable = ({ receipts, page, onPageChange }: ReceiptsTablePro
             </Table>
             <DataTablePagination
                 pagination={{
-                    page_size: receipts?.page_size ?? 0,
-                    count: receipts?.count ?? 0,
-                    next: receipts?.next ?? null,
-                    previous: receipts?.previous ?? null
+                    page_size: receipts?.meta.page_size ?? 0,
+                    count: receipts?.meta.count ?? 0,
+                    next: receipts?.meta.next ?? null,
+                    previous: receipts?.meta.previous ?? null
                 }}
                 page={page}
                 onPageChange={onPageChange}

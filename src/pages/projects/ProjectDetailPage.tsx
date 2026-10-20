@@ -5,6 +5,7 @@ import { PanelLayout } from "@/components/layout/PanelLayout"
 import { ProjectTabs } from "@/pages/projects/project-detail/ProjectTabs"
 import { ProjectHeader } from "@/pages/projects/project-detail/ProjectDetailHeader"
 import { ProjectHeaderSkeleton } from "./project-detail/ProjectDetailHeaderSkeleton"
+import type { ApiResponse } from "@/types/api"
 import type { Project } from "@/types/project.types"
 import { getApi } from "@/services/api/api"
 import { ApiError } from "@/services/api/ApiError"
@@ -19,8 +20,8 @@ export const ProjectDetailPage = () => {
         setLoading(true)
 
         try {
-            const project = await getApi<Project>(`/projects/${projectId}/`)
-            setProject(project)
+            const response = await getApi<ApiResponse<Project>>(`/projects/${projectId}/`)
+            setProject(response.data)
             
         } catch (error) {
             let message = "خطا در برقراری ارتباط با سرور"

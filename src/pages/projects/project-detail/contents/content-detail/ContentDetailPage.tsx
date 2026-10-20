@@ -5,6 +5,7 @@ import { PanelLayout } from "@/components/layout/PanelLayout"
 import { ContentDetailMain } from "./components/ContentDetailMain"
 import { ContentDetailHeader } from "./components/ContentDetailHeader"
 import { ContentDetailSidebar } from "./components/content-detail-sidebar/ContentDetailSidebar"
+import type { ApiResponse } from "@/types/api"
 import type { ReceiptContentDetail } from "@/types/contents.types"
 import { getApi } from "@/services/api/api"
 import { ApiError } from "@/services/api/ApiError"
@@ -19,8 +20,8 @@ export const ContentDetailPage = () => {
         setLoading(true)
 
         try {
-            const data = await getApi<ReceiptContentDetail>(`/receipt-content/${contentId}/`)
-            setContent(data)
+            const response = await getApi<ApiResponse<ReceiptContentDetail>>(`/receipt-content/${contentId}/`)
+            setContent(response.data)
 
         } catch (error) {
             let message = "خطا در برقراری ارتباط با سرور"
