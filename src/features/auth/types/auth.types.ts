@@ -10,7 +10,7 @@ export type LoginInputs = {
 export type LoginErrors = {
     email?: string,
     password?: string
-    captcha?: string
+    captcha_code?: string
 }
 
 export type OTPErrors = {

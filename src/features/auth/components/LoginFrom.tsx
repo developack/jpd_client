@@ -9,6 +9,7 @@ import { Spinner } from "@/components/ui/spinner"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Field, FieldLabel, FieldDescription } from "@/components/ui/field"
+import { useForm } from "@/hooks/use-form"
 import { useError } from "@/hooks/use-error"
 import { useAuth } from "@/features/auth/hooks/useAuth"
 import type { LoginInputs, LoginErrors, LoginFormProps, LoginResponse, CaptchaData } from "@/features/auth/types/auth.types"
@@ -22,18 +23,19 @@ export function LoginFrom({ setAuthStep, setTwoFactorToken }: LoginFormProps) {
     const [loading, setLoading] = useState(false)
     const [captchaLoading, setCaptchaLoading] = useState(false)
     const [captcha, setCaptcha] = useState<CaptchaData | null>(null)
-    const {message, fields, error, setError, handleChange, handleError} = useError<LoginInputs>({ email: "", password: "", captcha_code: ""})
+    const {handleError} = useError()
+    const {values, error, setError, handleChange, handleFormError } = useForm<LoginInputs>({ email: "", password: "", captcha_code: "" })
 
     const formValidation = (): LoginErrors => {
         const errors: LoginErrors = {}
-        if (!fields.email.trim()) {
+        if (!values.email.trim()) {
             errors.email = "وارد کردن آدرس ایمیل الزامی است"
         }
-        if (!fields.password.trim()) {
+        if (!values.password.trim()) {
             errors.password = "وارد کردن رمزعبور الزامی است"
         }
-        if (!fields.captcha_code.trim()) {
-            errors.captcha = "وارد کردن متن کپچا الزامی است"
+        if (!values.captcha_code.trim()) {
+            errors.captcha_code = "وارد کردن متن کپچا الزامی است"
         }
         return errors
     }
@@ -46,7 +48,11 @@ export function LoginFrom({ setAuthStep, setTwoFactorToken }: LoginFormProps) {
             setCaptcha(response)
 
         } catch (error) {
-            // console.log(error)
+            const result = handleError(error)
+            toast.add({
+                type: "error",
+                description: result.message
+            })
 
         } finally {
             setCaptchaLoading(false)
@@ -61,19 +67,19 @@ export function LoginFrom({ setAuthStep, setTwoFactorToken }: LoginFormProps) {
     const handleSubmit = async (event: React.SubmitEvent<HTMLFormElement>): Promise<void> => {
         event.preventDefault()
 
-        // const errors = formValidation()
-        // if (Object.keys(errors).length > 0) {
-        //     setError(errors)
-        //     return
-        // }
+        const errors = formValidation()
+        if (Object.keys(errors).length > 0) {
+            setError(errors)
+            return
+        }
 
         try {
             setLoading(true)
             const response: LoginResponse = await postApi("/login/",
                 {
-                    email: fields.email,
-                    password: fields.password,
-                    captcha_code: fields.captcha_code,
+                    email: values.email,
+                    password: values.password,
+                    captcha_code: values.captcha_code,
                     captcha_hashkey: captcha?.captcha_hashkey
                 }
             )
@@ -96,17 +102,18 @@ export function LoginFrom({ setAuthStep, setTwoFactorToken }: LoginFormProps) {
 
         } catch (error) {
             setLoginFailed(true)
-            handleError(error)
+            const result = handleFormError(error)
+
             toast.add({
                 type: "error",
-                description: message,
+                description: result.message,
             })
         } finally {
             setLoading(false)
         }
     }
 
-    console.log()
+    console.log(error)
     return (
         <form onSubmit={handleSubmit}>
             <Link to="/" className='flex items-end gap-2 mb-8'>
@@ -125,13 +132,13 @@ export function LoginFrom({ setAuthStep, setTwoFactorToken }: LoginFormProps) {
 
                 <Field data-invalid={!!error?.email}>
                     <FieldLabel htmlFor="email">آدرس ایمیل</FieldLabel>
-                    <Input onChange={handleChange} value={fields.email} id="email" name="email" type="email" aria-invalid={!!error?.email} />
+                    <Input onChange={handleChange} value={values.email} id="email" name="email" type="email" aria-invalid={!!error?.email} />
                     {error?.email && <FieldDescription className="text-right">{error?.email}</FieldDescription>}
                 </Field>
 
                 <Field data-invalid={!!error?.password}>
                     <FieldLabel htmlFor="password">رمزعبور</FieldLabel>
-                    <Input onChange={handleChange} value={fields.password} id="password" name="password" type="password" aria-invalid={!!error?.password} />
+                    <Input onChange={handleChange} value={values.password} id="password" name="password" type="password" aria-invalid={!!error?.password} />
                     {error?.password && <FieldDescription className="text-right">{error?.password}</FieldDescription>}
                 </Field>
 
@@ -139,7 +146,7 @@ export function LoginFrom({ setAuthStep, setTwoFactorToken }: LoginFormProps) {
                     <div className="flex flex-row gap-5 items-end">
                         <div className="flex flex-col gap-2 flex-[2.5]">
                             <FieldLabel htmlFor="captcha">متن کپچا</FieldLabel>
-                            <Input onChange={handleChange} value={fields.captcha_code} id="captcha" name="captcha" type="text" aria-invalid={!!error?.captcha_code} />
+                            <Input onChange={handleChange} value={values.captcha_code} id="captcha_code" name="captcha_code" type="text" aria-invalid={!!error?.captcha_code} />
                         </div>
                         <div className="flex gap-2.5 justify-end flex-2">
                             <Button onClick={() => fetchCaptcha()} variant="outline">

@@ -1,42 +1,44 @@
 import { useState } from "react"
 import { ApiError } from "@/services/api/ApiError"
 
-type ErrorFields<T> = Partial<Record<keyof T, string>>
 
-export const useError = <T extends Record<string, string>> (initialValues: T) => {
+type ErrorFields = Record<string, string>
+
+export const useError = () => {
     const [message, setMessage] = useState("")
     const [type, setType] = useState("")
-    const [fields, setFields] = useState<T>(initialValues)
-    const [error, setError] = useState<ErrorFields<T>>({})
-
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-        const { name, value } = event.target
-        setFields((prev) => ({ ...prev, [name]: value }))
-        setError((prev) => ({ ...prev, [name]: undefined }))
-    }
+    const [fields, setFields] = useState<ErrorFields>({})
 
     const handleError = (error: unknown) => {
         if (error instanceof ApiError) {
-            setMessage(error.data.error.message)
-            setType(error.data.error.code)
-            const serverErrors = Object.fromEntries(
-                Object.entries(error.data.error.fields ?? {}).map(([key, messages]) => [
+            const { message, code, fields } = error.data.error
+
+            const fieldErrors = Object.fromEntries(
+                Object.entries(fields ?? {}).map(([key, messages]) => [
                     key,
                     messages[0],
                 ])
-            ) as ErrorFields<T>
-            setError((prev) => ({...prev, ...serverErrors}))
+            )
+
+            setMessage(message)
+            setType(code)
+            setFields(fieldErrors)
+
+            return {
+                message,
+                type: code,
+                fields: fieldErrors,
+            }
         }
+
+        const message = "خطا در برقراری ارتباط با سرور"
+
+        setMessage(message)
+        setType("unknown_error")
+        setFields({})
+
+        return {message, type: "unknown_error", fields: {}}
     }
 
-    return {
-        type,
-        message,
-        fields,
-        setFields,
-        error,
-        setError,
-        handleChange,
-        handleError,
-    }
+    return {message, type, fields, handleError}
 }
