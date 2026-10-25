@@ -23,3 +23,8 @@ export type ApiErrorResponse = {
         non_field_errors?: string[]
     }
 }
+
+export type HandleApiErrorResponse = {
+    fields: Record<string, string>
+    general: string
+}

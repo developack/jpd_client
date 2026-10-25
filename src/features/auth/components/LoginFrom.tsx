@@ -9,10 +9,10 @@ import { Spinner } from "@/components/ui/spinner"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Field, FieldLabel, FieldDescription } from "@/components/ui/field"
+import { useError } from "@/hooks/use-error"
 import { useAuth } from "@/features/auth/hooks/useAuth"
 import type { LoginInputs, LoginErrors, LoginFormProps, LoginResponse, CaptchaData } from "@/features/auth/types/auth.types"
 import { getApi, postApi } from "@/services/api/api"
-import { ApiError } from "@/services/api/ApiError"
 
 
 export function LoginFrom({ setAuthStep, setTwoFactorToken }: LoginFormProps) {
@@ -20,27 +20,19 @@ export function LoginFrom({ setAuthStep, setTwoFactorToken }: LoginFormProps) {
     const navigate = useNavigate()
     const [loginFailed, setLoginFailed] = useState(false)
     const [loading, setLoading] = useState(false)
-    const [error, setError] = useState<LoginErrors>()
     const [captchaLoading, setCaptchaLoading] = useState(false)
     const [captcha, setCaptcha] = useState<CaptchaData | null>(null)
-    const [inputs, setInputs] = useState<LoginInputs>({ email: "", password: "", captcha: "" })
-
-
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-        const {name, value} = event.target
-        setInputs((prev) => ({ ...prev, [name]: value }))
-        setError((prev) => ({ ...prev, [name]: undefined }))
-    }
+    const {message, fields, error, setError, handleChange, handleError} = useError<LoginInputs>({ email: "", password: "", captcha_code: ""})
 
     const formValidation = (): LoginErrors => {
         const errors: LoginErrors = {}
-        if (!inputs.email.trim()) {
+        if (!fields.email.trim()) {
             errors.email = "وارد کردن آدرس ایمیل الزامی است"
         }
-        if (!inputs.password.trim()) {
+        if (!fields.password.trim()) {
             errors.password = "وارد کردن رمزعبور الزامی است"
         }
-        if (!inputs.captcha.trim()) {
+        if (!fields.captcha_code.trim()) {
             errors.captcha = "وارد کردن متن کپچا الزامی است"
         }
         return errors
@@ -54,7 +46,7 @@ export function LoginFrom({ setAuthStep, setTwoFactorToken }: LoginFormProps) {
             setCaptcha(response)
 
         } catch (error) {
-            console.log(error)
+            // console.log(error)
 
         } finally {
             setCaptchaLoading(false)
@@ -69,19 +61,19 @@ export function LoginFrom({ setAuthStep, setTwoFactorToken }: LoginFormProps) {
     const handleSubmit = async (event: React.SubmitEvent<HTMLFormElement>): Promise<void> => {
         event.preventDefault()
 
-        const errors = formValidation()
-        if (Object.keys(errors).length > 0) {
-            setError(errors)
-            return
-        }
+        // const errors = formValidation()
+        // if (Object.keys(errors).length > 0) {
+        //     setError(errors)
+        //     return
+        // }
 
         try {
             setLoading(true)
             const response: LoginResponse = await postApi("/login/",
                 {
-                    email: inputs.email,
-                    password: inputs.password,
-                    captcha_code: inputs.captcha, 
+                    email: fields.email,
+                    password: fields.password,
+                    captcha_code: fields.captcha_code,
                     captcha_hashkey: captcha?.captcha_hashkey
                 }
             )
@@ -104,11 +96,7 @@ export function LoginFrom({ setAuthStep, setTwoFactorToken }: LoginFormProps) {
 
         } catch (error) {
             setLoginFailed(true)
-            let message = "خطا در برقراری ارتباط با سرور"
-
-            if (error instanceof ApiError) {
-                message = error.message
-            }
+            handleError(error)
             toast.add({
                 type: "error",
                 description: message,
@@ -118,6 +106,7 @@ export function LoginFrom({ setAuthStep, setTwoFactorToken }: LoginFormProps) {
         }
     }
 
+    console.log()
     return (
         <form onSubmit={handleSubmit}>
             <Link to="/" className='flex items-end gap-2 mb-8'>
@@ -136,21 +125,21 @@ export function LoginFrom({ setAuthStep, setTwoFactorToken }: LoginFormProps) {
 
                 <Field data-invalid={!!error?.email}>
                     <FieldLabel htmlFor="email">آدرس ایمیل</FieldLabel>
-                    <Input onChange={handleChange} value={inputs.email} id="email" name="email" type="email" aria-invalid={!!error?.email} />
+                    <Input onChange={handleChange} value={fields.email} id="email" name="email" type="email" aria-invalid={!!error?.email} />
                     {error?.email && <FieldDescription className="text-right">{error?.email}</FieldDescription>}
                 </Field>
 
                 <Field data-invalid={!!error?.password}>
                     <FieldLabel htmlFor="password">رمزعبور</FieldLabel>
-                    <Input onChange={handleChange} value={inputs.password} id="password" name="password" type="password" aria-invalid={!!error?.password} />
+                    <Input onChange={handleChange} value={fields.password} id="password" name="password" type="password" aria-invalid={!!error?.password} />
                     {error?.password && <FieldDescription className="text-right">{error?.password}</FieldDescription>}
                 </Field>
 
-                <Field data-invalid={!!error?.captcha}>
+                <Field data-invalid={!!error?.captcha_code}>
                     <div className="flex flex-row gap-5 items-end">
                         <div className="flex flex-col gap-2 flex-[2.5]">
                             <FieldLabel htmlFor="captcha">متن کپچا</FieldLabel>
-                            <Input onChange={handleChange} value={inputs.captcha} id="captcha" name="captcha" type="text" aria-invalid={!!error?.captcha} />
+                            <Input onChange={handleChange} value={fields.captcha_code} id="captcha" name="captcha" type="text" aria-invalid={!!error?.captcha_code} />
                         </div>
                         <div className="flex gap-2.5 justify-end flex-2">
                             <Button onClick={() => fetchCaptcha()} variant="outline">
@@ -164,7 +153,7 @@ export function LoginFrom({ setAuthStep, setTwoFactorToken }: LoginFormProps) {
                             </div>
                         </div>
                     </div>
-                    {error?.captcha && <FieldDescription className="text-right">{error?.captcha}</FieldDescription>}
+                    {error?.captcha_code && <FieldDescription className="text-right">{error?.captcha_code}</FieldDescription>}
                 </Field>
 
                 <div className="flex gap-2">

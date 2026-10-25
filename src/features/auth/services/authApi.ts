@@ -26,11 +26,12 @@ export const refreshAccessToken = async (): Promise<boolean> => {
         const data: RefreshAccessTokenResponse = await response.json()
 
         if (!response.ok) {
-            throw new ApiError(
-                "Refresh token is invalid or expired",
-                response.status,
-                data
-            )
+            throw new ApiError("Refresh token is invalid or expired", response.status, {
+                error: {
+                    code: "invalid_refresh_token",
+                    message: "Refresh token is invalid or expired",
+                },
+            })
         }
 
         saveTokens({ access: data.access, refresh: refresh })

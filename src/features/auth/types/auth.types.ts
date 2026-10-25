@@ -1,7 +1,10 @@
+import type { ApiErrorResponse } from "@/types/api"
+
+
 export type LoginInputs = {
     email: string,
     password: string
-    captcha: string
+    captcha_code: string
 }
 
 export type LoginErrors = {
@@ -53,8 +56,12 @@ export type OTPSuccessResponse = {
     refresh: string
 }
 
-export type OTPErrorResponse = {
-    detail: string,
+// export type OTPErrorResponse = {
+//     detail: string,
+//     invalid_auth?: boolean
+// }
+
+export type OTPErrorResponse = ApiErrorResponse & {
     invalid_auth?: boolean
 }
 
