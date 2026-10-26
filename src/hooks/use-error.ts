@@ -6,7 +6,7 @@ type ErrorFields = Record<string, string>
 
 export const useError = () => {
     const [message, setMessage] = useState("")
-    const [type, setType] = useState("")
+    const [code, setCode] = useState("")
     const [fields, setFields] = useState<ErrorFields>({})
 
     const handleError = (error: unknown) => {
@@ -21,12 +21,12 @@ export const useError = () => {
             )
 
             setMessage(message)
-            setType(code)
+            setCode(code)
             setFields(fieldErrors)
 
             return {
                 message,
-                type: code,
+                code: code,
                 fields: fieldErrors,
             }
         }
@@ -34,11 +34,11 @@ export const useError = () => {
         const message = "خطا در برقراری ارتباط با سرور"
 
         setMessage(message)
-        setType("unknown_error")
+        setCode("unknown_error")
         setFields({})
 
-        return {message, type: "unknown_error", fields: {}}
+        return {message, code: "unknown_error", fields: {}}
     }
 
-    return {message, type, fields, handleError}
+    return {message, code, fields, handleError}
 }

@@ -103,7 +103,7 @@ export function LoginFrom({ setAuthStep, setTwoFactorToken }: LoginFormProps) {
         } catch (error) {
             setLoginFailed(true)
             const result = handleFormError(error)
-
+        
             toast.add({
                 type: "error",
                 description: result.message,
@@ -113,7 +113,6 @@ export function LoginFrom({ setAuthStep, setTwoFactorToken }: LoginFormProps) {
         }
     }
 
-    console.log(error)
     return (
         <form onSubmit={handleSubmit}>
             <Link to="/" className='flex items-end gap-2 mb-8'>

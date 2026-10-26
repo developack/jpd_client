@@ -7,7 +7,7 @@ type FormErrors<T> = Partial<Record<keyof T, string>>
 export const useForm = <T extends Record<string, string>>(initialValues: T) => {
     const [values, setValues] = useState<T>(initialValues)
     const [error, setError] = useState<FormErrors<T>>({})
-    const {message, type, fields, handleError} = useError()
+    const {message, code, fields, handleError} = useError()
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
         const { name, value } = event.target
@@ -28,7 +28,7 @@ export const useForm = <T extends Record<string, string>>(initialValues: T) => {
         setError,
         handleChange,
         message,
-        type,
+        code,
         fields,
         handleError,
         handleFormError,

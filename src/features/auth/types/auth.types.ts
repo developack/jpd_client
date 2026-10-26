@@ -13,8 +13,12 @@ export type LoginErrors = {
     captcha_code?: string
 }
 
+export type OTPFields = {
+    code: string
+}
+
 export type OTPErrors = {
-    otp?: string
+    code?: string
 }
 
 export type AuthStep = "login" | "otp"
@@ -54,15 +58,6 @@ export type LoginErrorResponse = {
 export type OTPSuccessResponse = {
     access: string,
     refresh: string
-}
-
-// export type OTPErrorResponse = {
-//     detail: string,
-//     invalid_auth?: boolean
-// }
-
-export type OTPErrorResponse = ApiErrorResponse & {
-    invalid_auth?: boolean
 }
 
 export type RefreshAccessTokenResponse = {

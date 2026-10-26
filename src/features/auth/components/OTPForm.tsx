@@ -7,21 +7,22 @@ import { toast } from "@/components/ui/toast"
 import { Spinner } from "@/components/ui/spinner"
 import { Field, FieldDescription } from "@/components/ui/field"
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp"
+import { useForm } from "@/hooks/use-form"
+import { useError } from "@/hooks/use-error"
 import { useAuth } from "@/features/auth/hooks/useAuth"
-import type { OTPFormProps, OTPErrors, AuthTokens, OTPErrorResponse } from "@/features/auth/types/auth.types"
+import type { OTPFormProps, OTPFields, OTPErrors, AuthTokens } from "@/features/auth/types/auth.types"
 import { postApi } from "@/services/api/api"
-import { ApiError } from "@/services/api/ApiError"
 
 
 export function OTPForm({ setAuthStep, token }: OTPFormProps) {
     const otpResendSeconds = 120
     const { login } = useAuth()
     const navigate = useNavigate()
-    const [otp, setOtp] = useState("")
     const [loading, setLoading] = useState(false)
-    const [error, setError] = useState<OTPErrors>()
     const [countdown, setCountdown] = useState(otpResendSeconds)
     const [resendLoading, setResendLoading] = useState(false)
+    const {handleError} = useError()
+    const {values, error, setError, handleFormError} = useForm<OTPFields>({code: ""})
 
     useEffect(() => {
         if (countdown === 0) return
@@ -36,8 +37,8 @@ export function OTPForm({ setAuthStep, token }: OTPFormProps) {
     const formValidation = (): OTPErrors => {
         const errors: OTPErrors = {}
 
-        if (otp.length < 6) {
-            errors.otp = "وارد کردن کد تایید الزامی می‌باشد"
+        if (values.code.length < 6) {
+            errors.code = "وارد کردن کد تایید الزامی می‌باشد"
         }
         return errors
     }
@@ -52,9 +53,8 @@ export function OTPForm({ setAuthStep, token }: OTPFormProps) {
         }
 
         try {
-            setError({ otp: "" })
             setLoading(true)
-            const response: AuthTokens = await postApi("/verify-2fa/", { code: otp, token: token })
+            const response: AuthTokens = await postApi("/verify-2fa/", { code: values.code, token: token })
             login(response)
 
             toast.add({
@@ -64,22 +64,16 @@ export function OTPForm({ setAuthStep, token }: OTPFormProps) {
             navigate("/")
 
         } catch (error) {
-            let message = "خطا در برقراری ارتباط با سرور"
-
-            if (error instanceof ApiError) {
-                message = error.message
-
-                const data = error.data as OTPErrorResponse
-                if (data.invalid_auth) {
-                    setAuthStep("login")
-                    return
-                }
-            }
-
+            const result = handleFormError(error)
             toast.add({
                 type: "error",
-                description: message,
+                description: result.message,
             })
+
+            if (result.code === "invalid_auth") {
+                setAuthStep("login")
+                return
+            }
 
         } finally {
             setLoading(false)
@@ -93,21 +87,18 @@ export function OTPForm({ setAuthStep, token }: OTPFormProps) {
             await postApi("/resend-2fa/", { token })
 
             setCountdown(otpResendSeconds)
+            values.code = ""
+
             toast.add({
                 type: "success",
                 description: "کد تأیید جدید برای شما ارسال شد",
             })
 
         } catch (error) {
-            let message = "خطا در برقراری ارتباط با سرور"
-
-            if (error instanceof ApiError) {
-                message = error.message
-            }
-
+            const result = handleError(error)
             toast.add({
                 type: "error",
-                description: message,
+                description: result.message,
             })
 
         } finally {
@@ -134,15 +125,15 @@ export function OTPForm({ setAuthStep, token }: OTPFormProps) {
             <p className="text-lg font-bold mt-8">کد تایید را وارد کنید</p>
             <div className="flex flex-col gap-5 mt-4">
                 <Field>
-                    <InputOTP id="digits-only" className="w-full" maxLength={6} value={otp}
-                        onChange={(value) => { setOtp(value); setError({ otp: "" }) }} pattern={REGEXP_ONLY_DIGITS}>
+                    <InputOTP id="digits-only" className="w-full" maxLength={6} value={values.code}
+                        onChange={(value) => { values.code = value; setError({ code: "" }) }} pattern={REGEXP_ONLY_DIGITS}>
                         <InputOTPGroup className="flex-row-reverse w-full gap-2 ring-0! outline-none!">
                             {Array.from({ length: 6 }).map((_, index) => (
-                                <InputOTPSlot index={index} className="w-full flex-1 h-12 text-lg rounded-lg border" aria-invalid={!!error?.otp} />
+                                <InputOTPSlot index={index} className="w-full flex-1 h-12 text-lg rounded-lg border" aria-invalid={!!error?.code} />
                             ))}
                         </InputOTPGroup>
                     </InputOTP>
-                    {error?.otp && <FieldDescription className="text-right">{error?.otp}</FieldDescription>}
+                    {error?.code && <FieldDescription className="text-right">{error?.code}</FieldDescription>}
                 </Field>
 
                 {resendLoading ? (<p className="text-xs text-center text-text-secondary my-5">در حال ارسال مجدد کد تایید ...</p>) : (
