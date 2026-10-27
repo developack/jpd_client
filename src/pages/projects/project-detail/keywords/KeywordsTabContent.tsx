@@ -1,12 +1,10 @@
 import { useState, useEffect } from "react"
 import { useParams } from "react-router"
-import { Tag, PlusIcon } from "lucide-react"
+import { Tag } from "lucide-react"
 import { toast } from "@/components/ui/toast"
-import { Button } from "@/components/ui/button"
 import { DataTableEmpty } from "@/components/data-table/DataTableEmpty"
 import { DataTableError } from "@/components/data-table/DataTableError"
 import { KeywordsTable } from "@/pages/projects/project-detail/keywords/KeywordsTable"
-import { NewKeywordDialog } from "@/pages/projects/project-detail/keywords/NewKeywordDialog"
 import { KeywordsTableSkeleton } from "@/pages/projects/project-detail/keywords/KeywordsTableSkeleton"
 import type { Keyword } from "@/types/keyword.types"
 import type { PaginatedResponse } from "@/types/api"
@@ -18,9 +16,7 @@ export const KeywordsTabContent = () => {
     const {projectId} = useParams()
     const [page, setPage] = useState(1)
     const [loading, setLoading] = useState(false)
-    const [dialogOpen, setDialogOpen] = useState(false)
     const [error, setError] = useState<ApiError | null>(null)
-    const [keywordCreated, setKeywordCreated] = useState<Keyword | null>(null)
     const [keywords, setKeywords] = useState<PaginatedResponse<Keyword> | null>(null)
 
     const fetchKeywords = async (): Promise<void> => {
@@ -57,7 +53,7 @@ export const KeywordsTabContent = () => {
 
     useEffect(() => {
         fetchKeywords()
-    }, [page, keywordCreated])
+    }, [page])
 
     const renderKeywordsContent = () => {
         if (loading) {
@@ -82,12 +78,7 @@ export const KeywordsTabContent = () => {
                     <h2 className="text-xl font-bold">کلیدواژه‌ها</h2>
                     <p className="text-text-secondary text-sm">کلیدواژه‌ها را برای این پروژه مدیریت کنید</p>
                 </div>
-                <Button onClick={() => setDialogOpen(true)} disabled>
-                    <PlusIcon className="size-4" />
-                    افزودن کلیدواژه
-                </Button>
             </header>
-            <NewKeywordDialog open={dialogOpen} onOpenChange={setDialogOpen} onKeywordCreated={setKeywordCreated} />
             <main className="mt-5">
                 {renderKeywordsContent()}
             </main>

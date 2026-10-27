@@ -9,10 +9,9 @@ export const ProjectsTableSkeleton = () => {
             <Table>
                 <TableHeader className="bg-table-head">
                     <TableRow>
-                        <TableHead className="text-right font-bold w-[40%]">عنوان</TableHead>
+                        <TableHead className="text-right font-bold w-[60%]">عنوان</TableHead>
                         <TableHead className="text-right font-bold w-[30%]">وضعیت</TableHead>
-                        <TableHead className="text-right font-bold w-[20%]">تاریخ ایجاد</TableHead>
-                        <TableHead className="text-right font-bold w-[10%]">عملیات</TableHead>
+                        <TableHead className="text-right font-bold w-[10%]">تاریخ ایجاد</TableHead>
                     </TableRow>
                 </TableHeader>
 
@@ -29,13 +28,6 @@ export const ProjectsTableSkeleton = () => {
 
                             <TableCell>
                                 <Skeleton className="h-5 w-24" />
-                            </TableCell>
-
-                            <TableCell>
-                                <div className="flex gap-2">
-                                    <Skeleton className="h-7 w-7 rounded-md" />
-                                    <Skeleton className="h-7 w-7 rounded-md" />
-                                </div>
                             </TableCell>
                         </TableRow>
                     ))}

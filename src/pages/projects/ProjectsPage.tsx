@@ -1,13 +1,11 @@
 import { useState, useEffect } from "react"
+import { FolderCode } from "lucide-react"
 import { toast } from "@/components/ui/toast"
-import { Button } from "@/components/ui/button"
-import { FolderCode, PlusIcon } from "lucide-react"
-import { Dialog, DialogTrigger } from "@/components/ui/dialog"
+import { Dialog } from "@/components/ui/dialog"
 import { PanelLayout } from "@/components/layout/PanelLayout"
 import { ProjectTable } from "@/pages/projects/components/ProjectsTable"
 import { DataTableEmpty } from "@/components/data-table/DataTableEmpty"
 import { DataTableError } from "@/components/data-table/DataTableError"
-import { NewProjectDialog } from "@/pages/projects/components/NewProjectDialog"
 import { ProjectsTableSkeleton } from "@/pages/projects/components/ProjectsTableSkeleton"
 import type { Project } from "@/types/project.types"
 import type { PaginatedResponse } from "@/types/api"
@@ -20,7 +18,6 @@ export const ProjectsPage = () => {
     const [loading, setLoading] = useState(false)
     const [dialogOpen, setDialogOpen] = useState(false)
     const [error, setError] = useState<ApiError | null>(null)
-    const [projectCreated, setProjectCreated] = useState<Project | null>(null)
     const [projects, setProjects] = useState<PaginatedResponse<Project> | null>(null)
 
     const fetchProjects = async (): Promise<void> => {
@@ -57,7 +54,7 @@ export const ProjectsPage = () => {
 
     useEffect(() => {
         fetchProjects()
-    }, [page, projectCreated])
+    }, [page])
 
     const renderProjectsContent = () => {
         if (loading) {
@@ -78,18 +75,11 @@ export const ProjectsPage = () => {
                 <section>
                     <header className="flex items-center justify-between">
                         <h1 className="text-2xl font-bold">پروژه‌ها</h1>
-                        <DialogTrigger>
-                            <Button>
-                                <PlusIcon className="size-4" />
-                                افزودن پروژه
-                            </Button>
-                        </DialogTrigger>
                     </header>
                     <main className="mt-5">
                         {renderProjectsContent()}
                     </main>
                 </section>
-                <NewProjectDialog onProjectCreated={setProjectCreated} onDialogOpen={setDialogOpen} />
             </Dialog>
         </PanelLayout>
     )

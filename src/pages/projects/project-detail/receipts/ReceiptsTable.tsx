@@ -15,11 +15,10 @@ export const ReceiptsTable = ({ receipts, page, onPageChange }: ReceiptsTablePro
             <Table className="overflow-hidden">
                 <TableHeader className="bg-table-head">
                     <TableRow>
-                        <TableHead className="text-right font-bold w-[29.2%]">عنوان</TableHead>
-                        <TableHead className="text-right font-bold w-[20%]">آدرس</TableHead>
-                        <TableHead className="text-right font-bold w-[20%]">وضعیت</TableHead>
-                        <TableHead className="text-right font-bold w-[20%]">تاریخ ایجاد</TableHead>
-                        <TableHead className="text-right font-bold w-[10.8%]">عملیات</TableHead>
+                        <TableHead className="text-right font-bold w-[39%]">عنوان</TableHead>
+                        <TableHead className="text-right font-bold w-[25%]">آدرس</TableHead>
+                        <TableHead className="text-right font-bold w-[25%]">وضعیت</TableHead>
+                        <TableHead className="text-right font-bold w-[11%]">تاریخ ایجاد</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -43,16 +42,6 @@ export const ReceiptsTable = ({ receipts, page, onPageChange }: ReceiptsTablePro
                                 </Badge>
                             </TableCell>
                             <TableCell>{formatDate(receipt.created)}</TableCell>
-                            <TableCell className="flex items-center gap-2">
-                                <Button size="icon-sm" variant="outline" disabled>
-                                    <Link to="/project">
-                                        <Pencil />
-                                    </Link>
-                                </Button>
-                                <Button size="icon-sm" variant="ghost" disabled>
-                                    <EllipsisVertical />
-                                </Button>
-                            </TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

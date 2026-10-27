@@ -24,12 +24,12 @@ export const KeywordsTable = ({ keywords, page, onPageChange }: KeywordsTablePro
             <Table className="overflow-hidden">
                 <TableHeader className="bg-table-head">
                     <TableRow>
-                        <TableHead className="text-right font-bold w-[29.2%]">عنوان</TableHead>
+                        <TableHead className="text-right font-bold w-[35%]">عنوان</TableHead>
                         <TableHead className="text-right font-bold w-[15%]">پروژه</TableHead>
                         <TableHead className="text-right font-bold w-[15%]">نوع کلیدواژه</TableHead>
                         <TableHead className="text-right font-bold w-[15%]">زبان</TableHead>
                         <TableHead className="text-right font-bold w-[15%]">تاریخ ایجاد</TableHead>
-                        <TableHead className="text-right font-bold w-[10.8%]">عملیات</TableHead>
+                        <TableHead className="text-right font-bold w-[5%]">عملیات</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -53,14 +53,6 @@ export const KeywordsTable = ({ keywords, page, onPageChange }: KeywordsTablePro
                             <TableCell className="flex items-center gap-2">
                                 <Button onClick={() => handleViewDetails(keyword)} size="icon-sm" variant="outline">
                                     <Eye />
-                                </Button>
-                                <Button size="icon-sm" variant="outline" disabled>
-                                    <Link to="/project">
-                                        <Pencil />
-                                    </Link>
-                                </Button>
-                                <Button size="icon-sm" variant="ghost" disabled>
-                                    <EllipsisVertical />
                                 </Button>
                             </TableCell>
                         </TableRow>

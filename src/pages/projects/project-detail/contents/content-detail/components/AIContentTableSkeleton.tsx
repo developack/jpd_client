@@ -13,7 +13,7 @@ export const AIContentTableSkeleton = () => {
                         <TableHead className="text-right font-bold w-[15%]">زبان</TableHead>
                         <TableHead className="text-right font-bold w-[15%]">وضعیت</TableHead>
                         <TableHead className="text-right font-bold w-[15%]">تاریخ ایجاد</TableHead>
-                        <TableHead className="text-right font-bold w-[15%]">عملیات</TableHead>
+                        <TableHead className="text-right font-bold w-[5%]">عملیات</TableHead>
                     </TableRow>
                 </TableHeader>
 
@@ -28,8 +28,6 @@ export const AIContentTableSkeleton = () => {
                             <TableCell><Skeleton className="h-5 w-16" /></TableCell>
                             <TableCell>
                                 <div className="flex gap-2">
-                                    <Skeleton className="h-7 w-7 rounded-md" />
-                                    <Skeleton className="h-7 w-7 rounded-md" />
                                     <Skeleton className="h-7 w-7 rounded-md" />
                                 </div>
                             </TableCell>

@@ -1,6 +1,6 @@
 import { Link } from "react-router"
+import { MoveRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { MoveRight, Pencil } from "lucide-react"
 import type { ContentDetailHeaderProps } from "@/types/contents.types"
 
 
@@ -13,10 +13,6 @@ export const ContentDetailHeader = ({ content }: ContentDetailHeaderProps) => {
                         <MoveRight />
                         بازگشت به محتواها
                     </Link>
-                </Button>
-                <Button disabled>
-                    <Pencil />
-                    ویرایش محتوا
                 </Button>
             </div>
         </header>

@@ -1,7 +1,6 @@
 import { Link } from "react-router"
+import { FolderClosed } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { FolderClosed, Pencil, EllipsisVertical } from "lucide-react"
 import { Table, TableRow, TableHead, TableCell, TableHeader, TableBody } from "@/components/ui/table"
 import { DataTablePagination } from "@/components/data-table/DataTablePagination"
 import type { ProjectsTableProps } from "@/types/project.types"
@@ -14,10 +13,9 @@ export const ProjectTable = ({ projects, page, onPageChange }: ProjectsTableProp
             <Table className="overflow-hidden">
                 <TableHeader className="bg-table-head">
                     <TableRow>
-                        <TableHead className="text-right font-bold w-[40%]">عنوان</TableHead>
+                        <TableHead className="text-right font-bold w-[60%]">عنوان</TableHead>
                         <TableHead className="text-right font-bold w-[30%]">وضعیت</TableHead>
-                        <TableHead className="text-right font-bold w-[20%]">تاریخ ایجاد</TableHead>
-                        <TableHead className="text-right font-bold w-[10%]">عملیات</TableHead>
+                        <TableHead className="text-right font-bold w-[10%]">تاریخ ایجاد</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -35,14 +33,6 @@ export const ProjectTable = ({ projects, page, onPageChange }: ProjectsTableProp
                                 </Badge>
                             </TableCell>
                             <TableCell>{formatDate(project.created)}</TableCell>
-                            <TableCell className="flex items-center gap-2">
-                                <Button size="icon-sm" variant="outline" disabled>
-                                    <Link to="/project"><Pencil /></Link>
-                                </Button>
-                                <Button size="icon-sm" variant="ghost" disabled>
-                                    <EllipsisVertical />
-                                </Button>
-                            </TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react"
 import { useParams } from "react-router"
-import { Button } from "@/components/ui/button"
 import { toast } from "@/components/ui/toast"
-import { PlusIcon, DatabaseArrowUp } from "lucide-react"
+import { DatabaseArrowUp } from "lucide-react"
 import { DataTableEmpty } from "@/components/data-table/DataTableEmpty"
 import { DataTableError } from "@/components/data-table/DataTableError"
 import { SubmissionsTable } from "@/pages/projects/project-detail/submissions/SubmissionsTable"
@@ -17,7 +16,6 @@ export const SubmissionsTabContent = () => {
     const { projectId } = useParams()
     const [page, setPage] = useState(1)
     const [loading, setLoading] = useState(false)
-    // const [dialogOpen, setDialogOpen] = useState(false)
     const [error, setError] = useState<ApiError | null>(null)
     const [submissions, setSubmissions] = useState<PaginatedResponse<Submission> | null>(null)
 
@@ -79,16 +77,7 @@ export const SubmissionsTabContent = () => {
                     <h2 className="text-xl font-bold">منابع انتشار</h2>
                     <p className="text-text-secondary text-sm">منابع انتشار را برای این پروژه مدیریت کنید</p>
                 </div>
-                {/* <Button onClick={() => setDialogOpen(true)} disabled>
-                    <PlusIcon className="size-4" />
-                    افزودن منبع
-                </Button> */}
-                <Button disabled>
-                    <PlusIcon className="size-4" />
-                    افزودن منبع
-                </Button>
             </header>
-            {/* <NewSubmissionDialog open={dialogOpen} onOpenChange={setDialogOpen} onSubmissionCreated={handleReceiptCreated} /> */}
             <main className="mt-5">
                 {renderSubmissionsContent()}
             </main>

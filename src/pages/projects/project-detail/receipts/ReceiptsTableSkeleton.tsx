@@ -9,11 +9,10 @@ export const ReceiptsTableSkeleton = () => {
             <Table>
                 <TableHeader className="bg-table-head">
                     <TableRow>
-                        <TableHead className="text-right font-bold w-[29.2%]">عنوان</TableHead>
-                        <TableHead className="text-right font-bold w-[20%]">آدرس</TableHead>
-                        <TableHead className="text-right font-bold w-[20%]">وضعیت</TableHead>
-                        <TableHead className="text-right font-bold w-[20%]">تاریخ ایجاد</TableHead>
-                        <TableHead className="text-right font-bold w-[10.8%]">عملیات</TableHead>
+                        <TableHead className="text-right font-bold w-[39%]">عنوان</TableHead>
+                        <TableHead className="text-right font-bold w-[25%]">آدرس</TableHead>
+                        <TableHead className="text-right font-bold w-[25%]">وضعیت</TableHead>
+                        <TableHead className="text-right font-bold w-[11%]">تاریخ ایجاد</TableHead>
                     </TableRow>
                 </TableHeader>
 
@@ -26,13 +25,6 @@ export const ReceiptsTableSkeleton = () => {
                             <TableCell><Skeleton className="h-5 w-32 rounded-full" /></TableCell>
                             <TableCell><Skeleton className="h-5 w-15" /></TableCell>
                             <TableCell><Skeleton className="h-5 w-16" /></TableCell>
-
-                            <TableCell>
-                                <div className="flex gap-2">
-                                    <Skeleton className="h-7 w-7 rounded-md" />
-                                    <Skeleton className="h-7 w-7 rounded-md" />
-                                </div>
-                            </TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

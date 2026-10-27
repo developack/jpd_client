@@ -1,7 +1,7 @@
 import { Link } from "react-router"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Pencil, MoveRight, FolderOpen, Calendar, EllipsisVertical } from "lucide-react"
+import { MoveRight, FolderOpen, Calendar } from "lucide-react"
 import type { ProjectHeaderProps } from "@/types/project.types"
 import { formatDate } from "@/utils/date"
 
@@ -15,10 +15,6 @@ export const ProjectHeader = ({ project }: ProjectHeaderProps) => {
                         <MoveRight />
                         بازگشت به پروژه‌ها
                     </Link>
-                </Button>
-                <Button disabled>
-                    <Pencil />
-                    ویرایش پروژه
                 </Button>
             </div>
             <div className="bg-surface rounded-lg mt-5 border p-5 grid grid-cols-[60px_auto] gap-5 items-start">
@@ -42,11 +38,6 @@ export const ProjectHeader = ({ project }: ProjectHeaderProps) => {
                                 <p>تاریخ ایجاد: <span>{formatDate(project?.created)}</span></p>
                             </div>
                         </div>
-                    </div>
-                    <div className="flex items-center gap-2">
-                        <Button variant="outline" size="icon" disabled>
-                            <EllipsisVertical className="size-4" />
-                        </Button>
                     </div>
                 </div>
             </div>

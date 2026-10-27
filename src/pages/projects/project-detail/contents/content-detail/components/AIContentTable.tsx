@@ -1,8 +1,7 @@
 import { useState } from "react"
-import { Link } from "react-router"
+import { FileText, Eye } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Pencil, EllipsisVertical, FileText, Eye } from "lucide-react"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import { Table, TableRow, TableHead, TableCell, TableHeader, TableBody } from "@/components/ui/table"
 import { AIContentDetailDialog } from "./AIContentDetailDialog"
@@ -29,7 +28,7 @@ export const AIContentTable = ({ ai_contents, page, onPageChange }: AIContentTab
                         <TableHead className="text-right font-bold w-[15%]">زبان</TableHead>
                         <TableHead className="text-right font-bold w-[15%]">وضعیت</TableHead>
                         <TableHead className="text-right font-bold w-[15%]">تاریخ ایجاد</TableHead>
-                        <TableHead className="text-right font-bold w-[15%]">عملیات</TableHead>
+                        <TableHead className="text-right font-bold w-[5%]">عملیات</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -56,14 +55,6 @@ export const AIContentTable = ({ ai_contents, page, onPageChange }: AIContentTab
                             <TableCell className="flex items-center gap-2">
                                 <Button onClick={() => handleViewDetails(ai_content)} size="icon-sm" variant="outline">
                                     <Eye />
-                                </Button>
-                                <Button size="icon-sm" variant="outline" disabled>
-                                    <Link to="/project">
-                                        <Pencil />
-                                    </Link>
-                                </Button>
-                                <Button size="icon-sm" variant="ghost" disabled>
-                                    <EllipsisVertical />
                                 </Button>
                             </TableCell>
                         </TableRow>
