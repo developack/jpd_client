@@ -7,46 +7,35 @@ import { ProjectTable } from "@/pages/projects/components/ProjectsTable"
 import { DataTableEmpty } from "@/components/data-table/DataTableEmpty"
 import { DataTableError } from "@/components/data-table/DataTableError"
 import { ProjectsTableSkeleton } from "@/pages/projects/components/ProjectsTableSkeleton"
+import { useError } from "@/hooks/use-error"
 import type { Project } from "@/types/project.types"
 import type { PaginatedResponse } from "@/types/api"
 import { getApi } from "@/services/api/api"
-import { ApiError } from "@/services/api/ApiError"
 
 
 export const ProjectsPage = () => {
     const [page, setPage] = useState(1)
     const [loading, setLoading] = useState(false)
     const [dialogOpen, setDialogOpen] = useState(false)
-    const [error, setError] = useState<ApiError | null>(null)
+    const [hasError, setHasError] = useState(false)
     const [projects, setProjects] = useState<PaginatedResponse<Project> | null>(null)
+    const {handleError} = useError()
 
     const fetchProjects = async (): Promise<void> => {
         setLoading(true)
-        setError(null)
+        setHasError(false)
         
         try {
             const data = await getApi<PaginatedResponse<Project>>(`/projects/?page=${page}`)
             setProjects(data)
 
         } catch (e) {
-            if (e instanceof ApiError) {
-                setError(e)
-            } else {
-                setError(
-                    new ApiError("خطا در برقراری ارتباط با سرور", 0, {
-                            error: {
-                                code: "network_error",
-                                message: "خطا در برقراری ارتباط با سرور",
-                            },
-                        }
-                    )
-                )
-                
-                toast.add({
-                    type: "error",
-                    description: "دریافت لیست پروژه‌ها با مشکل مواجه شد.",
-                })
-            }
+            const result = handleError(e)
+            setHasError(true)
+            toast.add({
+                type: "error",
+                description: result.message,
+            })
         } finally {
             setLoading(false)
         }
@@ -60,7 +49,7 @@ export const ProjectsPage = () => {
         if (loading) {
             return <ProjectsTableSkeleton />
         }
-        if (error) {
+        if (hasError) {
             return <DataTableError onRetry={fetchProjects} />
         }
         if (projects?.meta.count === 0) {
