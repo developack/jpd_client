@@ -25,7 +25,7 @@ export const ContentsTableSkeleton = () => {
                             <TableCell><Skeleton className="h-5 w-32 rounded-full" /></TableCell>
                             <TableCell><Skeleton className="h-5 w-10.5" /></TableCell>
                             <TableCell><Skeleton className="h-5 w-16" /></TableCell>
-                        </TableRow>
+                        </TableRow>  
                     ))}
                 </TableBody>
             </Table>

@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react"
-import { useParams } from "react-router"
+import { useParams, useSearchParams } from "react-router"
 import { FileText } from "lucide-react"
 import { toast } from "@/components/ui/toast"
 import { DataTableEmpty } from "@/components/data-table/DataTableEmpty"
 import { DataTableError } from "@/components/data-table/DataTableError"
 import { ContentsTable } from "@/pages/projects/project-detail/contents/ContentsTable"
 import { ContentsTableSkeleton } from "@/pages/projects/project-detail/contents/ContentsTableSkeleton"
-import type { Content } from "@/types/contents.types"
 import type { PaginatedResponse } from "@/types/api"
+import type { Content } from "@/types/contents.types"
 import { getApi } from "@/services/api/api"
 import { ApiError } from "@/services/api/ApiError"
 
@@ -15,15 +15,18 @@ import { ApiError } from "@/services/api/ApiError"
 export const ContentsTabContent = () => {
     const { projectId } = useParams()
     const [page, setPage] = useState(1)
+    const [searchParams] = useSearchParams()
+    const queryString = searchParams.toString()
+    console.log(queryString)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<ApiError | null>(null)
     const [contents, setContents] = useState<PaginatedResponse<Content> | null>(null)
 
     const fetchContents = async (): Promise<void> => {
         setLoading(true)
-        
+
         try {
-            const data = await getApi<PaginatedResponse<Content>>(`/receipt-contents/${projectId}/?page=${page}`)
+            const data = await getApi<PaginatedResponse<Content>>(`/receipt-contents/${projectId}/?page=${page}&${queryString}`)
             setContents(data)
 
         } catch (e) {
@@ -32,14 +35,14 @@ export const ContentsTabContent = () => {
             } else {
                 setError(
                     new ApiError("خطا در برقراری ارتباط با سرور", 0, {
-                            error: {
-                                code: "network_error",
-                                message: "خطا در برقراری ارتباط با سرور",
-                            },
-                        }
+                        error: {
+                            code: "network_error",
+                            message: "خطا در برقراری ارتباط با سرور",
+                        },
+                    }
                     )
                 )
-                
+
                 toast.add({
                     type: "error",
                     description: "دریافت لیست پروژه‌ها با مشکل مواجه شد.",
@@ -51,8 +54,12 @@ export const ContentsTabContent = () => {
     }
 
     useEffect(() => {
-        fetchContents()
-    }, [page])
+        const fetchData = async () => {
+            await fetchContents()
+        }
+
+        fetchData()
+    }, [page, queryString])
 
     const renderContentsContent = () => {
         if (loading) {

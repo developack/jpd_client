@@ -1,7 +1,6 @@
-import { Link, useParams } from "react-router"
+import { Link, useParams, useSearchParams } from "react-router"
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Pencil, EllipsisVertical, FileText } from "lucide-react"
+import { FileText, ChevronUp, ChevronDown, ChevronsUpDown } from "lucide-react"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import { Table, TableRow, TableHead, TableCell, TableHeader, TableBody } from "@/components/ui/table"
 import { DataTablePagination } from "@/components/data-table/DataTablePagination"
@@ -11,7 +10,25 @@ import { formatDate } from "@/utils/date"
 
 export const ContentsTable = ({ contents, page, onPageChange }: ContentsTableProps) => {
     const { projectId } = useParams()
+    const [searchParams, setSearchParams] = useSearchParams()
 
+    const handleOrderingChange = () => {
+        setSearchParams(prev => {
+            const params = new URLSearchParams(prev)
+            const ordering = params.get("ordering")
+
+            if (ordering === "asc") {
+                params.set("ordering", "desc")
+            } else {
+                params.set("ordering", "asc")
+            }
+
+            params.delete("page")
+
+            return params
+        })
+    }
+    console.log(searchParams.get("ordering"))
     return (
         <div className="bg-surface overflow-hidden rounded-lg border">
             <Table className="overflow-hidden">
@@ -20,7 +37,14 @@ export const ContentsTable = ({ contents, page, onPageChange }: ContentsTablePro
                         <TableHead className="text-right font-bold w-[50%]">عنوان</TableHead>
                         <TableHead className="text-right font-bold w-[20%]">منبع محتوا</TableHead>
                         <TableHead className="text-right font-bold w-[20%]">رسانه</TableHead>
-                        <TableHead className="text-right font-bold w-[10%]">تاریخ ایجاد</TableHead>
+                        <TableHead className="text-right font-bold w-[10%]">
+                            <div onClick={handleOrderingChange} className="flex items-center gap-1.5 cursor-pointer">
+                                تاریخ ایجاد
+                                {searchParams.get("ordering") === "asc" && <ChevronUp className="size-4" />}
+                                {searchParams.get("ordering") === "desc" && <ChevronDown className="size-4" />}
+                                {searchParams.get("ordering") === null && <ChevronsUpDown className="size-4" />}
+                            </div>
+                        </TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
